@@ -10,6 +10,7 @@ quotes = ('A man is not complete until he is married. Then he is finished.',
 
 
 class QuoteModel:
+
     def get_quote(delf, n):
         try:
             value = quotes[n]
@@ -19,6 +20,7 @@ class QuoteModel:
 
 
 class QuoteTerminalView:
+
     def show(self, quote):
         print 'And the quote is: {}'.format(quote)
 
@@ -30,6 +32,7 @@ class QuoteTerminalView:
 
 
 class QuoteTerminaController:
+
     def __init__(self):
         self.model = QuoteModel()
         self.view = QuoteTerminalView()
@@ -52,6 +55,7 @@ def main():
     controller = QuoteTerminaController()
     while True:
         controller.run()
+
 
 if __name__ == "__main__":
     main()

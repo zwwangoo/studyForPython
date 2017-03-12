@@ -4,10 +4,12 @@
 '''
 import random
 
+
 class TreeType:
     apple_tree = 1
     cherry_tree = 2
     peach_tree = 3
+
 
 class Tree(object):
     pool = dict()
@@ -32,23 +34,23 @@ def main():
 
     for _ in range(10):
         t1 = Tree(TreeType.apple_tree)
-        t1.render(rnd.randint(age_main, age_max), \
-            rnd.randint(min_poit, max_point), \
-            rnd.randint(min_poit, max_point))
+        t1.render(rnd.randint(age_main, age_max),
+                  rnd.randint(min_poit, max_point),
+                  rnd.randint(min_poit, max_point))
         tree_counter += 1
 
     for _ in range(3):
         t2 = Tree(TreeType.cherry_tree)
-        t2.render(rnd.randint(age_main, age_max), \
-            rnd.randint(min_poit, max_point), \
-            rnd.randint(min_poit, max_point))
+        t2.render(rnd.randint(age_main, age_max),
+                  rnd.randint(min_poit, max_point),
+                  rnd.randint(min_poit, max_point))
         tree_counter += 1
 
     for _ in range(5):
         t3 = Tree(TreeType.peach_tree)
-        t3.render(rnd.randint(age_main, age_max), \
-            rnd.randint(min_poit, max_point), \
-            rnd.randint(min_poit, max_point))
+        t3.render(rnd.randint(age_main, age_max),
+                  rnd.randint(min_poit, max_point),
+                  rnd.randint(min_poit, max_point))
         tree_counter += 1
 
     print 'tree rendered: {}'.format(tree_counter)
