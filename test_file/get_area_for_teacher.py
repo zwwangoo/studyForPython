@@ -6,7 +6,9 @@
 import csv
 
 import MySQLdb
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def update_teacher_new_arae():
 
@@ -35,6 +37,7 @@ def update_teacher_new_arae():
         writer = csv.writer(infofile)
         writer.writerow(['工号', '姓名', '部门编号', '道', '路', '区', '小区'])
         for i in info:
+            print i
             List.append(i)
         writer.writerows(info)
     except Exception as err:
