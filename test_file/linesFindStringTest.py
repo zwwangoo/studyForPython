@@ -2,6 +2,7 @@
 import time
 import sys
 
+
 def tail(f):
     """
     读取文档中的每一行
@@ -14,12 +15,14 @@ def tail(f):
             continue
         yield line
 
+
 def grep(lines, searchchtext):
     """
     搜索查询字符串
     """
     for line in lines:
-        if searchchtext in line: yield line
+        if searchchtext in line:
+            yield line
 
 if __name__ == '__main__':
     # 输入参数 文件名 搜索的字符串
