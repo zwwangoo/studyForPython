@@ -41,13 +41,13 @@ def getJobDeatileList(jobList, html):
 
             jobList.append(job_deatil)
 
-            print("\r{:.2f}".format(float(index/length)), end="")  # 打印进度条
+            print("\r{:.2f}".format(float(index/length)), end="")  # 打印进度条  这里暂时没有用，，速度太快。
     except:
         traceback.print_exc()
 
 
 def saveJobDataToFile(jobList):
-    with open("./job.csv", "a") as cvsfile:
+    with open("../data/job.csv", "a") as cvsfile:
         writer = csv.writer(cvsfile)
         writer.writerow(["索引", "职位", "公司", "薪酬", "城市", "链接", "职位要求"])
         for job in jobList:
