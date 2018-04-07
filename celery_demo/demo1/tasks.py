@@ -1,8 +1,11 @@
 import time
 from celery import Celery, Task
 
-app = Celery('demo1')
-app.config_from_object('config')
+broker = 'amqp://'
+backend = 'amqp://'
+
+app = Celery('demo1', broker=broker, backend=backend)
+
 
 class MyTask(Task):
     def on_success(self, retval, task_id, args, kwargs):

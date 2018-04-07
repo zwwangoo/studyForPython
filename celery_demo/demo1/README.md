@@ -8,7 +8,7 @@
 
 
 ```
-celery worker -A tasks --loglevel=info
+celery -A tasks  worker  --loglevel=info
 ```
 
 然后重新打开窗口，
