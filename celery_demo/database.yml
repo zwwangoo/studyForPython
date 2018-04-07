@@ -1,0 +1,690 @@
+--- # 活跃值
+
+active_record: 
+  shop_id:                    # 店主id
+    type: ObjectId
+  agent_id:                   # 服务商id
+    type: ObjectId
+  record_id: 
+    type: objectid
+
+  record_type:                # 记录种类
+    type: integer
+    allowed:
+      - 1                     # 绑定用户 - order
+      - 2                     # 分佣订单 - custom
+  score: # 积分
+    type: integer
+
+
+--- # 每日活跃值新增积分
+
+active_daily: 
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid  
+  day:                        # 日期20180101
+    type: integer
+  order_inc:                  # 订单活跃新增
+    type: integer  
+  custom_inc:                 # 客户活跃新增
+    type: integer  
+  increase:                   # 每日活跃新增
+    type: integer
+
+--- # 服务商钱包
+
+agent_wallet: 
+  agent_id:                   # 服务商ID
+    type: objectid
+  record_id:
+    type: objectid
+  record_type:
+    type: integer
+    allowed:
+      - 1                     # 佣金 - order_profit
+      - 2                     # 提现 - withdraw
+  amount:                     # 金额                    这是什么金额？
+    type: float
+  balance:                    # 余额                    这里的余额？
+    type: float
+
+--- # 服务商提现
+
+agent_withdraw: 
+  agent_id:                   # 服务商 ID
+    type: objectid
+  pay_month:                  # 支付月份201801
+    type: integer 
+  amount:                     # 提现金额
+    type: float
+  agent_amount:               # 商户月佣金提现金额
+    type: float
+  shop_amount:                # 店主提现金额
+    type: float
+  fee:                        # 技术服务费
+    type: float
+  invoice_img:                # 发票图片
+    type: string
+  error_msg:                  # 审核失败原因
+    type: string  
+  status:                     # 状态
+    type: integer
+    allowed:
+      - 0                     # 未提现
+      - 1                     # 已提现
+      - 2                     # 审核中
+      - 3                     # 审核失败
+
+--- # 店主精选商品
+
+collection: 
+  
+  shop_id:                    # 店主ID
+    type: objectid
+  items:                      # 精选商品列表
+    type: list
+    schema:  
+      type: dict
+      schema:
+        item_id:              # 商品ID                  这里传入的到底是个啥？
+          type: string
+        item_type:            # 商品类型
+          tyep: string
+          allowed:
+            - edu_mp3         # 音频课
+            - edu_offline     # 线下课
+            - edu_mp4         # 视频课
+            - edu_zhuan       # 专题课
+            - edu_dizi        # 弟子班 
+
+--- # 分佣订单
+
+order_profit:
+  channel:                    # 产品渠道
+    type: string
+    allowed:
+      - myzs                  # 美业助手
+      - store                 # 美业小店
+      - sheji                 # 美业设计助手
+      - myedu                 # 美业学堂
+      - yszb                  # 燕山争霸
+  order_no:                   # 订单编号
+    type: string
+  myid:                       # 美业ID
+    type: integer
+  unionid:                    # 用户微信id
+    type: string
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid
+  bind_shop_id:               # 绑定店主ID-被抢单
+    type: objectid
+    nullable: True
+  item_id:                    # 产品ID
+    type: string
+  item_type:                  #产品类型
+    type: string
+    allowed:
+      - shop                  # 店主课程
+      - vip_1                 # 晓美月卡
+      - vip_1                 # 晓美季卡
+      - vip_12                # 晓美年卡
+      - xmbeta                # 晓美公测
+      - edu_mp3
+      - edu_mp4
+      - edu_zhuan
+      - edu_dizi
+      - edu_offline
+  item_img:                   # 产品图片
+    type: string
+  item_intro:                 # 产品简介
+    type: string
+  item_price:                 # 产品价格
+    type: float
+  pay_price:                  # 支付价格
+    type: float
+  profit:                     # 佣金
+    type: float
+  shop_profit:                # 店主佣金
+    type: float
+  agent_profit:               # 服务产佣金
+    type: float
+  status:                     # 订单状态
+    type: integer
+    allowed:
+      - -1                    # 订单关闭
+      - 0                     # 待付款
+      - 1                     # 未签收-已付款
+      - 2                     # 已签收
+      - 3                     # 已完成
+      - 4                     # 申请退款-退款中
+      - 5                     # 已退款
+      - 6                     # 尾款待支付
+      - 7                     # 待开课
+      - 8                     # 拼团中
+      - 9                     # 拼团失败退款
+      - 10                    # 未支付尾款
+  cdate:                      # 创建时间
+    type: datetime
+  udate:                      # 更新时间
+    type: datetime
+
+--- # 合作商
+
+partenr: 
+  mobile:                     # 手机号
+    type: string
+  nickname:                   # 昵称
+    type: string
+  avatar:                     # 头像
+    type: string
+  parent:                     # 店主的服务商id
+    type: objectid
+    nullable: True
+  level:                      # 服务商等级
+    type: integer
+  typo:                       # 服务商类型
+    type: integer
+    allowed:
+      - 1                     # 内部服务商
+      - 2                     # 自媒体服务商
+      - 3                     # 供应链服务商
+      - 4                     # 微商服务商
+      - 5                     # 城市地推服务商
+  mode:                       # 合作类型
+    type: integer
+    allowed:
+      - 1                     # 服务商 agent
+      - 2                     # 店主 shop
+  verify:                     # 认证信息
+    type: dict
+    schema:
+      idcard:                 # 身份证
+        type: string
+      realname:               # 真实姓名
+        type: string
+      bank_card:              # 银行卡
+        type: string
+      bank_name:              # 银行名称
+        type: string
+      bank_mobile:            # 银行预留手机
+        type: string
+      company:                # 公司名称
+        type: string
+      business_license:       # 营业执照号
+        type: string
+      status:                 # 认证状态
+        type: integer
+        allowed:
+          - 0                 # 未认证
+          - 1                 # 已验证
+          - 2                 # 已确认/已认证
+  shop_info:                  # 店铺信息
+    type: dict
+    schema:
+      shop_order:
+        type: objectid
+      title:                  # 店铺名称
+        type: string
+      logo:                   # 店铺头像
+        type: string
+      intro:                  # 店铺简介
+        type: string
+      img:                    # 店铺背景图
+        type: string
+      course:                 # 创课学习
+        type: integer
+        allowed:
+          - 0                 # 未开启
+          - 1                 # 第1课ing
+          - 2                 # 第2课ing
+          - 3                 # 第3课ing
+          - 4                 # 毕业
+  exclusive_qrcode:           # 专属渠道二维码
+    type: string
+  shop_order_total:           # 订单销售累计
+    type: float
+    default: 0
+  shop_custom_total:          # 客户累计
+    type: integer
+    default: 0
+  shop_active_total:          # 店铺活跃值
+    type: integer
+    default: 0
+  shop_profit_total:          # 订单佣金累计
+    type: integer
+    default: 0
+  active_record:              # 店主30天活跃值
+    type: integer
+    default: 0
+  recruit_count:              # 服务商店主名额
+    type: integer
+  agent_advert:               # 代理商广告设置
+    type: dict
+    schema:
+      item_id:                # 推广商品ID
+        type: string
+      item_type:              # 推广商品类型
+        type: string
+      item_status:            # 推广商品状态
+        type: integer
+      recruit_seat:           # 店主招募席位
+        type: integer
+      recruit_status:         # 店主招募状态
+        type: integer
+      recruit_qrcode:         # 店主招募二维码
+        type: string
+  wx_qrcode:                  # 服务商二维码
+    type: string
+  cdate:
+    type: datetime
+  udate:
+    type: datetime
+
+--- # 小店产品
+
+product:
+  item_id:                    # 产品ID
+    type: string
+  item_type:                  # 产品类型
+    type: string
+    allowed:
+      - shop                  # 店主课程
+      - xiaomei               # 晓美
+      - v1                    # 晓美月卡
+      - v3                    # 晓美季卡
+      - v12                   # 晓美年卡
+      - extension
+      - edu_mp3
+      - edu_mp4
+      - edu_zhuan
+      - edu_dizi
+      - edu_offline
+  item_img:                   # 产品图片
+    type: string
+  item_intro:                 # 产品简介
+    type: string
+  item_price:                 # 产品价格
+    type: float
+  status:                     # 状态
+    type: integer
+    allowed:
+      - 0                     # 下架
+      - 1                     # 上架
+
+--- # 商品移除库-回收站
+
+recycle: 
+  agent_id:                   # 服务商ID
+    type: objectid
+  item_id:                    # 商品ID
+    type: string
+  item_type:                  # 商品类型
+    type: string
+  status:                     # 状态
+    type: integer
+    allowed:
+      - 1                     # 有效
+      - 0                     # 删除
+
+--- # 店主绑定用户关系
+
+relation: 
+  channel:                    # 加入渠道
+    type: string
+    allowed:
+      - myzs                  # 美业助手
+      - store                 # 美业小店
+      - sheji                 # 美业设计助手
+      - myedu                 # 美业学堂
+      - yszb                  # 燕山争霸
+  myid:                       # 美业ID
+    type: integer
+    default: 0
+  unionid:                    # 用户微信id
+    type: string
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid
+  mobile:                     # 用户手机
+    type: string
+  avatar:                     # 用户头像
+    type: string
+  nickname:                   # 用户昵称
+    type: string
+  consume:                    # 消费情况
+    type: integer
+    allowed:
+      - 0                     # 未消费-潜在客户
+      - 1                     # 已消费-消费客户
+  addwx:                      # 添加微信好友
+    type: integer
+    allowed:
+      - 0                     # 未添加
+      - 1                     # 已添加
+  xm_sustain:                 #                             # 这个字段的含义？
+    type: integer
+    allowed:
+      - 0                     # 未维护
+      - 1                     # 已维护
+  cdate:                      # 创建时间
+    type: datetime
+  udate:                      # 更新时间
+    type: datetime
+
+--- # 每日客户新增
+
+relation_daliy: 
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid
+  increase:                   # 客户当日新增
+    type: integer
+  total:                      # 客户总量
+    type: integer
+  datetime:                   # 日期
+    type: string
+
+--- # 分享素材
+
+share_media:
+  prodoct_id:
+    type: objectid
+  typo:
+    type: string
+    allowed:
+      - img                   # 图片
+      - link                  # 链接
+      - video                 # 视频
+      - wxpost                # 公众号文章
+  text:                       # 分享文案/公众号简介
+    type: string
+  imgs:                       # 图片素材
+    type: list
+  link_title:                 # 链接标题
+    type: string
+  link_intro:                 # 链接简介
+    type: string
+  link_img:                   # 链接图片
+    type: string
+  link_url:                   # 链接地址/公众号原文链接
+    type: string
+  video_url:                  # 视频地址
+    type: string
+  title:                      # 公众号文章标题
+    type: string
+  content:                    # 公众号文章
+    type: list
+    schema:
+      type: dict
+      schema:
+        img:                  # 图片地址
+          type: string
+        type:                 # 正文类型 # img 图片 video 视频 text 文本
+          type: string
+          allowed:
+            - img             # 图片
+            - link            # 链接
+            - video           # 视频
+        height:               # 图片高度
+          type: integer
+        weight:               # 图片宽度
+          type: integer
+      schema:
+        video:                # 视频地址
+          type: string
+        type:                 # 图片文案
+          type: string
+      schema:
+        content:              # 正文内容
+          type: string
+        type:                 # 图片文案
+          tyep: string
+
+--- # 商品推广记录
+
+share_record: 
+  shop_id:                    # 店主ID
+    type: objectid
+  item_id:                    # 商品ID
+    type: string
+  item_type:                  # 商品类型
+    type: string
+  share_type:                 # 推广类型
+    type:  integer
+    allowed:
+      - 1                     # img
+      - 2                     # h5
+
+--- # 店铺订单
+
+shop_order:
+  myid:                       # 美业ID
+    type: integer
+  unionid:                    # 用户微信id
+    type: string
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid
+  order_title:                # 订单标题
+    type: string
+  order_type:                 # 订单类型-预留
+    type: string
+    allowed:
+      - shop                  # 店主养成课
+  order_no:                   # 订单编号
+    type: string
+  pay_order_no:               # 第三方支付单号
+    type: string
+  pay_type:                   # 支付方式
+    type: integer
+    allowed:
+      - 0                     # 未定
+      - 1                     # 微信支付
+      - 2                     # 美币
+      - 3                     # 佣金
+      - 4                     # 微信支付+佣金
+      - 5                     # ios 内购现金
+  platform:                   # 支付平台
+    type: string
+    allowed:
+      - wx_myxd               # 美业小店公众号
+      - ios                   # 苹果
+      - android               # 安卓
+  item_id:                    # 商品ID
+    type: string
+  item_type:                  # 商品类型
+    type: string
+  item_price:                 # 商品价格
+    type: float
+  pay_price:                  # 支付价格
+    type: float
+  source:                     # 订单来源-预留
+    type: integer
+    allowed:
+      - 0                     # 
+      - 1                     # 
+      - 2                     # 
+      - 3                     # 
+      - 4                     # 
+      - 5                     # 
+      - 6                     # 
+  status:                     # 订单状态
+    type: integer
+    allowed:
+      - -1                    # 订单关闭
+      - 0                     # 待付款
+      - 1                     # 未签收-已付款
+      - 2                     # 已签收
+      - 3                     # 已完成
+      - 4                     # 申请退款-退款中
+      - 5                     # 已退款
+  cdate:                      # 创建时间
+    type: datetime
+  udate:                      # 更新时间
+    type: datetime
+
+--- # 店主钱包
+
+shop_wallet: 
+  shop_id:                    # 店主ID
+    type: objectid
+  amount:                     # 金额
+    type: float
+  balance:                    # 余额
+    type: float
+  record_id:
+    type: objectid
+  record_type:
+    type: integer
+    allowed:
+      - 1                     # 佣金-order_profit
+      - 2                     # 提现-withdraw
+
+--- # 店主提现
+
+shop_withdraw: 
+  shop_id:                    # 店主ID
+    type: objectid
+  agent_id:                   # 服务商ID
+    type: objectid
+  pay_day:                    # 支付日期
+    type: integer             # 20180101
+  amount:                     # 金额
+    type: float
+  fee:                        # 技术服务费
+    type: float
+  status:                     # 状态
+    type: integer
+    allowed:
+      - 1                     # 已提现
+      - 2                     # 审核中
+
+--- # 创客学院文章
+
+study_blog:
+  title:                      # 标题
+    type: string
+  typo:                       # 类型-预留
+    type: integer
+    default: 1
+  intro:                      # 简介
+    type: string
+  img:                        # 图片
+    type: string
+  content:                    # 内容
+    type: string
+
+--- # 创客学院店主课程
+
+study_course: 
+  idx:                        # 章节
+    type: integer 
+    allowed:
+      - 1
+      - 2
+      - 3
+  title:                      # 标题
+    type: string
+  intro:                      # 简介
+    type: string
+  video_url:                  # 视频
+    type: string
+  video_img:                  # 图片
+    type: string
+  questions:                  # 问答
+    type: list
+    schema:
+      type: dict
+      schema:
+        ask:                  # 问题
+          type: string
+        options:              # 选项
+          tyep: list
+        key:                  # 答案
+          type: integer
+          allowed:
+            - 1               # A
+            - 2               # B
+            - 3               # C
+            - 4               # D
+
+--- # 线下地推七天Vip 
+vip_experience: 
+  agent_id:                   # 服务商id
+    type: objectid
+  shop_id:                    # 店主id
+    type: objectid
+  vip_count:                  # vip卡剩余
+    type: integer
+  cdate:                      # 创建时间
+    type: datetime
+  udate:                      # 修改时间
+    type: datetime
+
+--- # 服务商/店主数量
+
+vip_online: 
+  agent_id:                   # 服务商id
+    type: objectid
+  shop_id:                    # 店主id
+    type: objectid
+  vip_count:                  # vip卡剩余
+    type: integer
+  qrcode:
+    type: string
+  used_count:                 # vip已使用数量
+    type: integer
+  cdate:                      # 创建时间
+    type: datetime
+  udate:                      # 修改时间
+    type: datetime
+
+--- # 七天vip发放记录
+
+vip_record:
+  shop_id:                    # 被发放店主id
+    type: objectid
+  agent_id:                   # 服务商id
+    type: objectid
+  count:                      # 发放数量
+    type: integer
+  cdate:                      # 发放时间
+    type: datetime
+
+--- # 微信用户信息
+
+wxinfo: 
+  unionid:                    # 微信开放平台ID
+    type: string
+  openid:                     # 微信openid
+    type: string
+  nickname:                   # 昵称
+    type: string
+  sex:                        # 性别
+    type: integer
+    allowed:
+      - 0                     # 未知
+      - 1                     # 男
+      - 2                     # 女
+  province:                   # 省份
+    type: string
+  city:                       # 城市
+    type: string
+  country:                    # 国家
+    type: string
+  headimgurl:                 # 用户头像
+    type: string
+  subtime:                    # 关注时间
+    type: integer
+  subscribe:                  # 关注状态
+    type: integer
+    allowed:
+      - 0                     # 未关注
+      - 1                     # 已关注
