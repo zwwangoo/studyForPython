@@ -2,8 +2,15 @@ from datetime import timedelta
 from celery.schedules import crontab
 
 # Broker and Backend
-BROKER_URL = 'amqp://'
-CELERY_RESULT_BACKEND = 'amqp://'
+# BROKER_URL = 'amqp://'
+# CELERY_RESULT_BACKEND = 'amqp://'
+
+BROKER_URL = 'mongodb://localhost:27017/mydb'
+CELERY_RESULT_BACKEND = 'mongodb://localhost:27017/'
+CELERY_MONGODB_BACKEND_SETTINGS = {
+    'database': 'mydb',
+    'taskmeta_collection': 'my_taskmeta_collection',
+}
 
 # Timezone
 CELERY_TIMEZONE='Asia/Shanghai'    # 指定时区，不指定默认为 'UTC'
@@ -24,7 +31,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'multiply-at-some-time': {
         'task': 'celery_app.task2.multiply',
-        'schedule': crontab(hour=9, minute=50),   # 每天早上 9 点 50 分执行一次
+        'schedule': crontab(hour=11, minute=30),   # 每天早上 11 点 30 分执行一次
         'args': (3, 7)                            # 任务函数参数
     }
 }

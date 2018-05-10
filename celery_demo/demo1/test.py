@@ -1,5 +1,5 @@
 import time
-from tasks import add, raiseError
+from .tasks import add, raiseError
 
 re = add.delay(2, 2)
 

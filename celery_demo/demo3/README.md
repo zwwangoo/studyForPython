@@ -23,3 +23,5 @@ celery beat -A celery_app
 ```
 celery -B -A celery_app worker --loglevel=info
 ```
+
+[参考](http://geek.csdn.net/news/detail/128791)

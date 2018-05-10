@@ -1,5 +1,6 @@
 import time
-from celery_app import app
+from .celery import app
+
 
 @app.task
 def add(x, y):

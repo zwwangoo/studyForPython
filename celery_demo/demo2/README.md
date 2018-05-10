@@ -1,13 +1,14 @@
 ## demo2 说明
 
 - 这里演示了关于配置的使用，以及运行一个项目文件夹的例子
+- 使用mongodb
 
 ## 启动命令
 
 在当前路径下执行以下命令启动任务：
 
 ```
-celery -A celery_app worker --loglevel=info
+celery -A celery_app worker -l info
 ```
 
 然后重新打开窗口，

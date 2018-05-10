@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from celery_app import task1, task2
+from .celery_app import task1, task2
 
 task1.add.apply_async(args=(1, 2))
 task2.multiply.apply_async(args=[2, 3])
