@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Crypto.Cipher import AES
 
+
 class CryptoTools():
     """ 加密解密类 """
     def __init__(self, key):
@@ -16,7 +17,7 @@ class CryptoTools():
         count = text.count("")
         if count < length:
             add = (length - count) + 1
-            text += (self.pdding * add)
+            text += (self.padding * add)
         elif count > length:
             add = (length - (count % length)) + 1
             text += (self.padding * add)
@@ -30,16 +31,14 @@ class CryptoTools():
         return plain_text.rstrip("\0")
 
 
-
-
-
 if __name__ == "__main__":
     key = '0123456789abcdef'
-    data = "{'a':'123中文', sss}"
+    data = '123456'
     ec = CryptoTools(key)
-    encrypt_data = ec.encrypto(data)
+    encrypt_data = str(ec.encrypto(data))
+    print(encrypt_data, len(encrypt_data))
     decrypt_data = ec.decrypt(encrypt_data)
-    print encrypt_data, decrypt_data, decrypt_data == data
+    print(encrypt_data, decrypt_data, decrypt_data == data)
 
     from base64 import b64decode, b64encode
-    print b64encode(encrypt_data)
+    print(b64encode(encrypt_data))
