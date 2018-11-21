@@ -1,3 +1,6 @@
+# coding: utf-8
+
+
 def shell_sort(data):
     """
     希尔(Shell)排序: 缩小增量排序，它是一种插入排序。

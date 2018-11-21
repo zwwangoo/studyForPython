@@ -1,3 +1,6 @@
+# coding: utf-8
+
+
 def select_sort(data):
     """
     选择排序

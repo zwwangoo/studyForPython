@@ -1,3 +1,6 @@
+# coding: utf-8
+
+
 def insert_sort(data):
     """
     插入排序（升序）

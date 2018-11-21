@@ -1,10 +1,12 @@
+# coding: utf-8
+
 import unittest
 
-from sort.bubble import *
-from sort.insert import insert_sort
-from sort.quick import quick_sort
-from sort.select import select_sort
-from sort.shell import shell_sort
+from .bubble import *
+from .insert import insert_sort
+from .quick import quick_sort
+from .select import select_sort
+from .shell import shell_sort
 
 
 class SortTest(unittest.TestCase):

@@ -1,3 +1,4 @@
+# coding: utf-8
 
 __string = """
 冒泡排序的python实现方式。

@@ -1,3 +1,6 @@
+# coding: utf-8
+
+
 def quick_sort(data):
     """
     快速排序是对冒泡排序的一种改进。
