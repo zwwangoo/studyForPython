@@ -1,2 +1,5 @@
 .idea/*
 *.pyc
+beat.*
+.pytest_cache/
+.python_version
