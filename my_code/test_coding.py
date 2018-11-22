@@ -32,3 +32,6 @@ def test_is_uniquel():
     assert is_uniquel(['a', 'b', 'c']) == True
     assert is_uniquel(['1', '2', '1']) == False
 
+def test_get_index():
+    assert get_index(['', 'a', 'a', '', 'b'], 'a') == 1
+    assert get_index(['', 'a', 'a', '', 'b'], 'c') == -1

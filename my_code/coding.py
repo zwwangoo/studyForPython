@@ -232,3 +232,43 @@ def is_uniquel(chars):
         else:
             count[chars] = 1
     return True
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+def get_index(strs, str1):
+    """
+    2018-11-22
+    在有序但含有空的数组中查找字符串
+    ---
+    给定一个字符串数组strs，在strs中有些位置位''，但不为''的位置
+    上，其字符串是按照字典顺序由小到大依次出现的。 再给定一个字
+    符串str，请返回str在strs中出现的最左的位置。
+    本地的解法尽可能使用了二分查找。
+    """
+    if not strs or not str1:
+        return -1
+    res = -1
+    left = 0
+    right = len(strs) - 1
+
+    while left < right:
+        mid = (left + right) / 2
+        if not strs[mid] and strs[mid] == str1:
+            right = mid - 1
+            res = mid
+        elif not strs[mid]:
+            if strs[mid] > str1:
+                left = mid + 1
+            else:
+                right = mid - 1
+        else:
+            i = mid - 1
+            while not strs[i] and i >= left:
+                i -= 1
+            if i < left or strs[i] < left:
+                left = mid + 1
+            else:
+                res = i if strs[i] == str1 else res
+                right = i - 1
+    return res
