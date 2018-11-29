@@ -2,7 +2,8 @@
 import time
 from datetime import datetime, timedelta
 from flask import Blueprint
-from proj.tasks import add, sum
+from proj.tasks import sum
+from proj.delay import add
 
 user = Blueprint('user', __name__)
 task_id = ''
