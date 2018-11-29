@@ -35,3 +35,8 @@ def test_is_uniquel():
 def test_get_index():
     assert get_index(['', 'a', 'a', '', 'b'], 'a') == 1
     assert get_index(['', 'a', 'a', '', 'b'], 'c') == -1
+
+
+def test_rotate_word():
+    assert rotate_word('pig loves dog') == 'dog loves pig'
+    assert rotate_word('I`m a student.') == 'student. a I`m'
