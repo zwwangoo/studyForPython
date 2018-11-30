@@ -40,3 +40,8 @@ def test_get_index():
 def test_rotate_word():
     assert rotate_word('pig loves dog') == 'dog loves pig'
     assert rotate_word('I`m a student.') == 'student. a I`m'
+
+
+def test_min_distance():
+    assert min_distance(['CD'], 'CD', 'AB') == -1
+    assert min_distance(['1', '3', '3', '3', '2', '3', '1'], '2', '1') == 2

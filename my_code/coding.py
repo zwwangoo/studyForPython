@@ -302,3 +302,33 @@ def rotate_word(chas):
     if i == 0:
         res += chas[i:j]
     return res
+
+
+def min_distance(strs, str1, str2):
+    """
+    2018-11-30
+    数组中两个字符串的最小距离
+    ---
+    给定一个字符串数组strs，再给定两个字符串str1和str2，
+    返回strs中str1和str2的最小距离，如果str1或str2为null，
+    或不在strs中，返回-1
+    """
+    import sys
+    if not(str1 and str2):
+        return -1
+    if str1 == str2:
+        return 0
+
+    last1 = last2 = -1
+    mind = sys.maxsize
+
+    i = 0
+    while i < len(strs):
+        if strs[i] == str1:
+            mind = mind if last2 == -1 else i - last2
+            last1 = i
+        elif strs[i] == str2:
+            mind = mind if last1 == -1 else i - last1
+            last2 = i
+        i += 1
+    return -1 if mind == sys.maxsize else mind
