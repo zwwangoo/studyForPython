@@ -3,13 +3,6 @@ from extensions import celery
 
 
 @celery.task()
-def add(a, b):
-    print(a + b)
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    return a + b
-
-
-@celery.task()
 def sum(a, b):
     print(a * b)
     print('******************************************************')
