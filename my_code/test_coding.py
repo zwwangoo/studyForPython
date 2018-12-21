@@ -1,4 +1,32 @@
-from .coding import *
+from .coding import (
+    convert, replace, get_count_string, is_uniquel,
+    rotate_word, get_index, min_distance,
+    remove_last_note,
+)
+
+
+class Note(object):
+    def __init__(self, data):
+        self.value = data
+        self.next = None
+
+
+def create_notes(length):
+    head = None
+    for i in range(length):
+        note = Note(i)
+        note.next = head
+        head = note
+    return head
+
+
+def read_notes(head):
+    values = []
+    while head:
+        values.append(head.value)
+        head = head.next
+    return values
+
 
 def test_convert():
     assert convert('12346') == 12346
@@ -19,6 +47,7 @@ def test_replace():
     assert replace('123abc', 'abc', '4567') == '1234567'
     assert replace('123', 'abc', '456') == '123'
     assert replace('123abcabc', 'abc', 'X') == '123X'
+
     assert replace('abcabc123', 'abc', 'X') == 'X123'
 
 
@@ -29,8 +58,9 @@ def test_get_count_string():
 
 
 def test_is_uniquel():
-    assert is_uniquel(['a', 'b', 'c']) == True
-    assert is_uniquel(['1', '2', '1']) == False
+    assert is_uniquel(['a', 'b', 'c'])
+    assert not is_uniquel(['1', '2', '1'])
+
 
 def test_get_index():
     assert get_index(['', 'a', 'a', '', 'b'], 'a') == 1
@@ -45,3 +75,14 @@ def test_rotate_word():
 def test_min_distance():
     assert min_distance(['CD'], 'CD', 'AB') == -1
     assert min_distance(['1', '3', '3', '3', '2', '3', '1'], '2', '1') == 2
+
+
+def test_remove_last_note():
+
+    assert read_notes(remove_last_note(create_notes(5), 3)) == [4, 3, 1, 0]
+    assert read_notes(remove_last_note(create_notes(10), 11)) == [
+        9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
+    ]
+    assert read_notes(remove_last_note(create_notes(10), 0)) == [
+        9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
+    ]

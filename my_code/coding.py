@@ -332,3 +332,27 @@ def min_distance(strs, str1, str2):
             last2 = i
         i += 1
     return -1 if mind == sys.maxsize else mind
+
+
+def remove_last_note(head, k):
+    """
+    2018-12-21
+    在单链表中删除倒数第k个节点
+    ---
+    如果链表长度为N，时间复杂度也达到O(N)，额外空间复杂度达到O(1)
+    """
+    if not head or k < 1:
+        return head
+    tag_head = head
+    while tag_head:
+        k -= 1
+        tag_head = tag_head.next
+    if k == 0:
+        return head.next
+    if k < 0:
+        tag_head = head
+        while k != -1:
+            k += 1
+            tag_head = tag_head.next
+        tag_head.next = tag_head.next.next
+    return head
