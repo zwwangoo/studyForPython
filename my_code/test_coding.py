@@ -1,26 +1,26 @@
 from .coding import (
     convert, replace, get_count_string, is_uniquel,
     rotate_word, get_index, min_distance,
-    remove_last_note,
+    remove_last_node, remove_mid_node, remove_by_ratio,
 )
 
 
-class Note(object):
+class Node(object):
     def __init__(self, data):
         self.value = data
         self.next = None
 
 
-def create_notes(length):
+def create_nodes(length):
     head = None
     for i in range(length):
-        note = Note(i)
-        note.next = head
-        head = note
+        node = Node(i)
+        node.next = head
+        head = node
     return head
 
 
-def read_notes(head):
+def read_nodes(head):
     values = []
     while head:
         values.append(head.value)
@@ -77,12 +77,35 @@ def test_min_distance():
     assert min_distance(['1', '3', '3', '3', '2', '3', '1'], '2', '1') == 2
 
 
-def test_remove_last_note():
+def test_remove_last_node():
 
-    assert read_notes(remove_last_note(create_notes(5), 3)) == [4, 3, 1, 0]
-    assert read_notes(remove_last_note(create_notes(10), 11)) == [
+    assert read_nodes(remove_last_node(create_nodes(5), 3)) == [4, 3, 1, 0]
+    assert read_nodes(remove_last_node(create_nodes(10), 11)) == [
         9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
     ]
-    assert read_notes(remove_last_note(create_notes(10), 0)) == [
+    assert read_nodes(remove_last_node(create_nodes(10), 0)) == [
         9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
+    ]
+
+
+def test_remove_mid_node():
+    assert read_nodes(remove_mid_node(create_nodes(2))) == [0]
+    assert read_nodes(remove_mid_node(create_nodes(10))) == [
+        9, 8, 7, 6, 4, 3, 2, 1, 0,
+    ]
+    assert read_nodes(remove_mid_node(create_nodes(5))) == [
+        4, 3, 1, 0,
+    ]
+
+
+def test_remove_by_ratio():
+    assert read_nodes(remove_by_ratio(create_nodes(2), 1, 2)) == [0]
+    assert read_nodes(remove_by_ratio(create_nodes(7), 5, 7)) == [
+        6, 5, 4, 3, 1, 0,
+    ]
+    assert read_nodes(remove_by_ratio(create_nodes(7), 5, 6)) == [
+        6, 5, 4, 3, 2, 0,
+    ]
+    assert read_nodes(remove_by_ratio(create_nodes(7), 1, 6)) == [
+        6, 4, 3, 2, 1, 0,
     ]

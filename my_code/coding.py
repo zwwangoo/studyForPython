@@ -334,7 +334,7 @@ def min_distance(strs, str1, str2):
     return -1 if mind == sys.maxsize else mind
 
 
-def remove_last_note(head, k):
+def remove_last_node(head, k):
     """
     2018-12-21
     在单链表中删除倒数第k个节点
@@ -355,4 +355,48 @@ def remove_last_note(head, k):
             k += 1
             tag_head = tag_head.next
         tag_head.next = tag_head.next.next
+    return head
+
+
+def remove_mid_node(head):
+    """
+    删除链表中间的元素
+    """
+    if not head or not head.next:
+        return head
+    if not head.next.next:
+        return head.next
+
+    pre = head
+    cur = head.next.next
+    while cur.next and cur.next.next:
+        pre = pre.next
+        cur = cur.next.next
+
+    pre.next = pre.next.next
+    return head
+
+
+def remove_by_ratio(head, a, b):
+    """
+    删除链表 a/b处的元素
+    """
+    import math
+    if a < 1 or a > b:
+        return head
+    n = 0
+    cur = head
+    while cur:
+        n += 1
+        cur = cur.next
+
+    n = math.ceil(n * a / b)
+    if n == 1:
+        return head.next
+    if n > 1:
+        cur = head
+        while n != 2:
+            n -= 1
+            cur = cur.next
+        cur.next = cur.next.next
     return head
