@@ -2,6 +2,7 @@ from .coding import (
     convert, replace, get_count_string, is_uniquel,
     rotate_word, get_index, min_distance,
     remove_last_node, remove_mid_node, remove_by_ratio,
+    reverse_node, reverse_part_node,
 )
 
 
@@ -109,3 +110,18 @@ def test_remove_by_ratio():
     assert read_nodes(remove_by_ratio(create_nodes(7), 1, 6)) == [
         6, 4, 3, 2, 1, 0,
     ]
+
+
+def test_reverse_node():
+    assert read_nodes(reverse_node(create_nodes(5))) == [0, 1, 2, 3, 4]
+    assert read_nodes(reverse_node(create_nodes(1))) == [0]
+
+
+def test_reverse_part_node():
+    assert read_nodes(reverse_part_node(create_nodes(5), 2, 4)) == [
+        4, 1, 2, 3, 0,
+    ]
+    assert read_nodes(reverse_part_node(create_nodes(5), 0, 4)) == [
+        4, 3, 2, 1, 0,
+    ]
+    assert read_nodes(reverse_part_node(create_nodes(4), 1, 4)) == [0, 1, 2, 3]

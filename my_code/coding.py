@@ -360,6 +360,7 @@ def remove_last_node(head, k):
 
 def remove_mid_node(head):
     """
+    2018-12-24
     删除链表中间的元素
     """
     if not head or not head.next:
@@ -379,6 +380,7 @@ def remove_mid_node(head):
 
 def remove_by_ratio(head, a, b):
     """
+    2018-12-24
     删除链表 a/b处的元素
     """
     import math
@@ -400,3 +402,53 @@ def remove_by_ratio(head, a, b):
             cur = cur.next
         cur.next = cur.next.next
     return head
+
+
+def reverse_node(head):
+    """
+    2018-12-25
+    翻转链表
+    """
+    pre = None
+    next = None
+    while head:
+        next = head.next
+        head.next = pre
+        pre = head
+        head = next
+    return pre
+
+
+def reverse_part_node(head, from1, to):
+    """
+    2018-12-26
+    翻转部分单向链表
+    ---
+    给定一个单向链表的头结点head，以及两个整数from和to，
+    在单向链表上把第from个节点到第to个节点这一部分进行翻转。
+
+    """
+    length = 0
+    node1 = head
+    fpre = None
+    tpos = None
+    while node1:
+        length += 1
+        fpre = node1 if length == from1 - 1 else fpre
+        tpos = node1 if length == to + 1 else tpos
+        node1 = node1.next
+    if from1 > to or from1 < 1 or to > length:
+        return head
+    node1 = fpre.next if fpre else head
+    node2 = node1.next
+    node1.next = tpos
+    next = None
+    while node2 != tpos:
+        next = node2.next
+        node2.next = node1
+        node1 = node2
+        node2 = next
+    if fpre:
+        fpre.next = node1
+        return head
+    return node1
