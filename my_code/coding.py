@@ -452,3 +452,36 @@ def reverse_part_node(head, from1, to):
         fpre.next = node1
         return head
     return node1
+
+
+def jpsephus_kill_node(head, m):
+    """
+    2018-12-27
+    环形单链表的约瑟夫问题
+    ---
+    据说著名犹太历史学家Josephus有过以下故事：
+    在罗马人占领乔塔伯特后，39个犹太人与Josephus以及他的朋
+    友躲到一个洞里，39个犹太人决定宁愿死也不要被敌人抓住，
+    于是决定了一个自杀方式，41个人排成一个圆圈，由第1个人开
+    始报数，报到3的人就自杀，然后再由下一个人重新报1，报数
+    到3的人再自杀，以此下去，知道最后剩下一个人时，那个人可
+    以自由选择自己的命运。这就是著名的约瑟夫问题。
+    现请用单向环形链表描述该结构并呈现整个自杀过程。
+    """
+    if not head or head.next == head or m < 1:
+        return head
+
+    last = head
+    while last.next != head:
+        last = last.next
+
+    count = 0
+    while head != last:
+        count += 1
+        if count == m:
+            last.next = head.next
+            count = 0
+        else:
+            last = last.next
+        head = last.next
+    return head
