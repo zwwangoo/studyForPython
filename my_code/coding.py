@@ -485,3 +485,55 @@ def jpsephus_kill_node(head, m):
             last = last.next
         head = last.next
     return head
+
+
+def is_palindroome_node(head):
+    '''
+    2018-12-28
+    判断一个链表是否为回文
+    ---
+    给定一个链表的头结点head，判断该链表是否为回文结构。
+    如果链表长度为N，时间复杂度也达到O(N)，额外空间复杂度达到O(1)
+    '''
+    if not head or not head.next:
+        return head
+
+    n1 = head
+    n2 = head
+    # 查找中间节点
+    # n2跨两步，n1跨一步，当n2遍历结束的时候，n1指向的就是中间节点
+    while n2.next and n2.next.next:
+        n1 = n1.next
+        n2 = n2.next.next
+
+    n2 = n1.next  # 右部分第一个节点
+    n1.next = None  # mid.next ->None
+    n3 = None
+    while n2:  # 右半边反转
+        n3 = n2.next
+        n2.next = n1
+        n1 = n2
+        n2 = n3
+
+    n3 = n1.next  # 保存最后一个节点
+    n2 = head  # 左边第一个节点
+    res = True
+
+    while n1 and n2:
+        if n1.value == n2.value:
+            n1 = n1.next
+            n2 = n2.next
+        else:
+            res = False
+            break
+
+    # 还原链表
+    n1 = n3.next
+    n3.next = None
+
+    while n1:
+        n2 = n1.next
+        n1.next = n3
+        n3 = n1
+        n1 = n2
+    return res
