@@ -1,32 +1,12 @@
+from .my_base.my_node import create_nodes, read_nodes
+
 from .coding import (
     convert, replace, get_count_string, is_uniquel,
     rotate_word, get_index, min_distance,
     remove_last_node, remove_mid_node, remove_by_ratio,
     reverse_node, reverse_part_node, is_palindroome_node,
+    MyStack,
 )
-
-
-class Node(object):
-    def __init__(self, data):
-        self.value = data
-        self.next = None
-
-
-def create_nodes(column):
-    head = None
-    for i in column:
-        node = Node(i)
-        node.next = head
-        head = node
-    return head
-
-
-def read_nodes(head):
-    values = []
-    while head:
-        values.append(head.value)
-        head = head.next
-    return values
 
 
 def test_convert():
@@ -134,3 +114,21 @@ def test_reverse_part_node():
 def test_is_palindroome_node():
     assert is_palindroome_node(create_nodes([1, 2, 3, 3, 2, 1]))
     assert not is_palindroome_node(create_nodes([1, 2, 3, 3]))
+
+
+def test_my_stack_get_min():
+    stack1 = MyStack()
+    stack1.push(1)
+    stack1.push(2)
+    stack1.push(3)
+    assert stack1.get_min() == 1
+    stack1.push(0)
+    assert stack1.get_min() == 0
+    assert stack1.pop() == 0
+    assert stack1.pop() == 3
+    assert stack1.pop() == 2
+    assert stack1.pop() == 1
+    stack1.push(5)
+    assert stack1.pop() == 5
+    stack1.push(4)
+    assert stack1.pop() == 4
