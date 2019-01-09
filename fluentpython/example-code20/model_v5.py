@@ -1,0 +1,51 @@
+import abc
+
+
+class AutoStorage:
+    __counter = 0
+
+    def __init__(self):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = '_{}#{}'.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        # 这里实现了值的存储，但是没有验证
+        setattr(instance, self.storage_name, value)
+
+
+class Validated(abc.ABC, AutoStorage):
+    '''这是一个抽象类，但是也继承AutoStorage'''
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        # 把返回的value传给超类的__set__方法，存储值
+        super().__set__(instance, value)
+
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        '''return validated value or raise ValueError'''
+
+
+class Quantity(Validated):
+    '''a number greater than zero'''
+    def validate(self, instance, value):
+        if value > 0:
+            return value
+        raise ValueError('value must be > 0')
+
+
+class NonBlank(Validated):
+    '''a string with at least one not-space character'''
+    def validate(self, instance, value):
+        value = value.strip()
+        if len(value) == 0:
+            raise ValueError('value cannot be empty or blank')
+        return value
