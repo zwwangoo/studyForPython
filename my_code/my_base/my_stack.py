@@ -20,3 +20,10 @@ class Stack:
 
     def size(self):
         return len(self.value)
+
+
+def create_stack(data):
+    stack = Stack()
+    for i in data:
+        stack.push(i)
+    return stack

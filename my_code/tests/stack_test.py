@@ -1,5 +1,6 @@
 import pytest
-from ..codes.about_stack import MyStack, TwoStacksQueue
+from ..codes.about_stack import MyStack, TwoStacksQueue, reverse_stack
+from ..my_base.my_stack import create_stack
 
 
 def test_my_stack_get_min():
@@ -33,3 +34,14 @@ def test_two_stacks_queue():
 
     with pytest.raises(RuntimeError):
         tsq.poll()
+
+
+def test_reverse_stack():
+    stack1 = create_stack([1, 2, 3, 4, 5])
+    reverse_stack(stack1)
+    assert stack1.pop() == 1
+    assert stack1.pop() == 2
+    assert stack1.pop() == 3
+    assert stack1.pop() == 4
+    assert stack1.pop() == 5
+    assert stack1.empty()
