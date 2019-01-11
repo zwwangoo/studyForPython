@@ -1,5 +1,8 @@
 import pytest
-from ..codes.about_stack import MyStack, TwoStacksQueue, reverse_stack
+from ..codes.about_stack import (
+    MyStack, TwoStacksQueue, reverse_stack,
+    hanoi_problem1, hanoi_problem2,
+)
 from ..my_base.my_stack import create_stack
 
 
@@ -45,3 +48,9 @@ def test_reverse_stack():
     assert stack1.pop() == 4
     assert stack1.pop() == 5
     assert stack1.empty()
+
+
+def test_hanoi_problem():
+    assert hanoi_problem1(2) == hanoi_problem2(2)
+    assert hanoi_problem1(3) == hanoi_problem2(3)
+    assert hanoi_problem1(4) == hanoi_problem2(4)

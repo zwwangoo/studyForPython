@@ -1,3 +1,5 @@
+import sys
+import enum
 from ..my_base.my_stack import Stack
 
 
@@ -161,7 +163,7 @@ def hanoi_problem1(num, left='left', mid='mid', right='right'):
     if num < 1:
         return 0
     else:
-        return propess(num, left, mid, right, mid, right)
+        return propess(num, left, mid, right, right, left)
 
 
 def propess(num, left, mid, right, from_s, to_s):
@@ -189,3 +191,67 @@ def propess(num, left, mid, right, from_s, to_s):
         print('Move {} from {} to {}'.format(str(num), mid, to_s))
         part5 = propess(num - 1, left, mid, right, from_s, to_s)
         return part1 + part2 + part3 + part4 + part5
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+class Action(enum.Enum):
+    No = 0
+    LToM = 1
+    MToL = 2
+    MToR = 3
+    RToM = 4
+
+
+def hanoi_problem2(num, left='left', mid='mid', right='right'):
+    """
+    非递归的方法解决汉诺塔问题——用栈来模拟过程
+    ---
+    修改部分游戏规则：
+    限制不能从最左侧的塔直接移动到最右侧，反之也不行，而是必须经过中间，
+    当塔有N层的时候，打印最优移动过程和最优移动总步数。
+    ---
+    """
+    ls = Stack()
+    ms = Stack()
+    rs = Stack()
+    for stack in (ls, ms, rs):
+        stack.push(sys.maxsize)
+
+    for i in range(num, 0, -1):
+        ls.push(i)
+
+    record = [Action.No]
+    step = 0
+
+    while rs.size() != num + 1:
+        step += f_stack_to_stack(
+            record, Action.MToL, Action.LToM, ls, ms,
+            left, mid,
+        )
+        step += f_stack_to_stack(
+            record, Action.LToM, Action.MToL, ms, ls,
+            mid, left,
+        )
+        step += f_stack_to_stack(
+            record, Action.RToM, Action.MToR, ms, rs,
+            mid, right,
+        )
+        step += f_stack_to_stack(
+            record, Action.MToR, Action.RToM, rs, ms,
+            right, mid,
+        )
+    return step
+
+
+def f_stack_to_stack(record, pre_no_act, now_act, fstack, tstack, froms, tos):
+    if pre_no_act != record[0] and fstack.peek() < tstack.peek():
+        # 注意的是：相反的动作不会发生。
+        tstack.push(fstack.pop())
+        print('Move {} from {} to {}'.format(str(tstack.peek()), froms, tos))
+        record[0] = now_act
+        return 1
+    else:
+        return 0
