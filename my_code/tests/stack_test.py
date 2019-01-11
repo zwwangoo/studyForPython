@@ -1,7 +1,8 @@
 import pytest
 from ..codes.about_stack import (
     MyStack, TwoStacksQueue, reverse_stack,
-    hanoi_problem1, hanoi_problem2,
+    hanoi_problem1, hanoi_problem2, get_max_window,
+    get_max_window1,
 )
 from ..my_base.my_stack import create_stack
 
@@ -54,3 +55,14 @@ def test_hanoi_problem():
     assert hanoi_problem1(2) == hanoi_problem2(2)
     assert hanoi_problem1(3) == hanoi_problem2(3)
     assert hanoi_problem1(4) == hanoi_problem2(4)
+
+
+def test_get_max_window():
+    assert get_max_window([4, 3, 5, 4, 3, 3, 6, 7], 3) == [
+        5, 5, 5, 4, 6, 7,
+    ]
+    assert get_max_window([3, 6, 7], 3) == [7]
+    assert get_max_window1([4, 3, 5, 4, 3, 3, 6, 7], 3) == [
+        5, 5, 5, 4, 6, 7,
+    ]
+    assert get_max_window1([3, 6, 7], 3) == [7]

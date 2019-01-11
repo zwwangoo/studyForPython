@@ -136,6 +136,7 @@ def sort_stack_by_stack(stack):
 
 def hanoi_problem1(num, left='left', mid='mid', right='right'):
     """
+    2019-01-10
     递归的方法解决汉诺塔问题
     ---
     修改部分游戏规则：
@@ -207,6 +208,7 @@ class Action(enum.Enum):
 
 def hanoi_problem2(num, left='left', mid='mid', right='right'):
     """
+    2019-01-11
     非递归的方法解决汉诺塔问题——用栈来模拟过程
     ---
     修改部分游戏规则：
@@ -255,3 +257,53 @@ def f_stack_to_stack(record, pre_no_act, now_act, fstack, tstack, froms, tos):
         return 1
     else:
         return 0
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def get_max_window(array, w):
+    """
+    2019-01-11
+    生成窗口最大值数组
+    ---
+    有一个整形数组array和一个大小为w的窗口从数组的最左边滑到最右边，
+    窗口每次向右边划一个位置，如果数组长度为n，窗口大小为w，则一共
+    产生n-w+1个窗口的最大值。
+    """
+    if len(array) == 0 or w < 1 or len(array) < w:
+        return None
+    q_max = []  # 用来存放array中的下标
+    i = 0
+    res = []
+    for i in range(len(array)):
+        while len(q_max) != 0 and array[i] >= array[q_max[-1]]:
+            # 弹出array[i] <= array[j] 的q_max中的j下标
+            q_max.remove(q_max[-1])
+
+        q_max.append(i)
+
+        if q_max[0] == i - w:
+            q_max.remove(q_max[0])
+
+        if i >= w - 1:
+            res.append(array[q_max[0]])
+    return res
+
+
+def get_max_window1(array, w):
+    """
+    2019-01-11
+    生成窗口最大值数组
+    ---
+    用了python的内置函数max
+    """
+    if len(array) == 0 or w < 1 or len(array) < w:
+        return None
+    res = []
+    for i in range(len(array)):
+        if i + w == len(array) + 1:
+            break
+        res.append(max(array[i:i + w]))
+    return res
