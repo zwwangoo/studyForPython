@@ -1,6 +1,7 @@
 import sys
 import enum
 from ..my_base.my_stack import Stack
+from ..my_base.my_tree import Node
 
 
 # ----------------------------------------------------------------
@@ -273,7 +274,7 @@ def get_max_window(array, w):
     产生n-w+1个窗口的最大值。
     """
     if len(array) == 0 or w < 1 or len(array) < w:
-        return None
+        return []
     q_max = []  # 用来存放array中的下标
     i = 0
     res = []
@@ -307,3 +308,85 @@ def get_max_window1(array, w):
             break
         res.append(max(array[i:i + w]))
     return res
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def get_max_tree(array):
+    """
+    2019-01-13
+    构造数组的MaxTree
+    ---
+    一个MaxTree定义如下：
+    1、数组必须没有重复元素
+    2、MaxTree是一棵二叉树，数组的每一个值对应一个二叉树节点
+    3、包括MaxTree树在内且其中的每一棵子树上，值最大的节点都是树的头
+    ---
+    思路：
+    以下原则来建立这棵树：
+    1、每个数的父节点是它左边一个比它的数和它右边第一个比它大的数中，较小的那个。
+    2、如果一个数左边没有比它大的数，右边也没有，也就是说，这个数是整个数组的最
+    大值，那么这个数是MaxTree的头结点。
+    """
+    node_array = []
+    for i in array:
+        node_array.append(Node(i))
+
+    stack = Stack()
+    left_big_dict = {}
+    right_big_dict = {}
+
+    for i in node_array:
+        cur_node = i
+        while not stack.empty() and stack.peek().value < cur_node.value:
+            pop_stack_set_dict(stack, left_big_dict)
+        stack.push(cur_node)
+
+    while not stack.empty():
+        pop_stack_set_dict(stack, left_big_dict)
+
+    for i in range(len(node_array) - 1, -1, -1):
+        cur_node = node_array[i]
+        while not stack.empty() and stack.peek().value < cur_node.value:
+            pop_stack_set_dict(stack, right_big_dict)
+        stack.push(cur_node)
+
+    while not stack.empty():
+        pop_stack_set_dict(stack, right_big_dict)
+
+    head = None
+    for cur_node in node_array:
+        left = left_big_dict.get(cur_node)
+        right = right_big_dict.get(cur_node)
+        if left is None and right is None:  # 这个这个树的头结点，没有比它更大的数了。
+            head = cur_node
+        elif left is None:
+            if right.left is None:
+                right.left = cur_node
+            else:
+                right.right = cur_node
+        elif right is None:
+            if left.left is None:
+                left.left = cur_node
+            else:
+                left.right = cur_node
+        else:
+            parent = left if left.value < right.value else right
+            if parent.left is None:
+                parent.left = cur_node
+            else:
+                parent.right = cur_node
+    return head
+
+
+def pop_stack_set_dict(stack, big_dict):
+    """
+    构建键值对，表示关系
+    """
+    pop_node = stack.pop()
+    if stack.empty():
+        big_dict.update({pop_node: None})
+    else:
+        big_dict.update({pop_node: stack.peek()})

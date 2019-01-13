@@ -230,3 +230,32 @@ def is_palindroome_node(head):
         n3 = n1
         n1 = n2
     return res
+
+
+def merge_two_nodes(head1, head2):
+    """
+    2019-01-13
+    合并两个有序的单链表
+    ---
+    给定两个有序单链表的头结点head1和head2，请合并两个有序连表，合并
+    后依然有序，并返回合并后链表的头结点。
+    """
+    if not head1 or not head2:
+        return head1 if head1 else head2
+
+    head = head1 if head1.value <= head2.value else head2
+    cur1 = head1 if head == head1 else head2
+    cur2 = head2 if head == head1 else head1
+    pre = None
+    while cur1 and cur2:
+        if cur1.value < cur2.value:
+            pre = cur1
+            cur1 = cur1.next
+        else:
+            next = cur2.next
+            pre.next = cur2
+            cur2.next = cur1
+            pre = cur2
+            cur2 = next
+    pre.next = cur1 if cur1 else cur2
+    return head
