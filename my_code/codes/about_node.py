@@ -1,4 +1,6 @@
 # coding: utf-8
+from ..my_base.my_stack import Stack
+from ..my_base.my_node import Node
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 
@@ -258,4 +260,81 @@ def merge_two_nodes(head1, head2):
             pre = cur2
             cur2 = next
     pre.next = cur1 if cur1 else cur2
+    return head
+
+
+def list_partition(head, pivot):
+    """
+    2019-01-14
+    将单链表按某值划分成左边小、中间相等、右边大的形式。
+    ---
+    给定一个单向链表的头结点head，节点的值类型是整形，在给定一个整数pivot。
+    实现一个调整链表的函数，将链表调整为左边部分都是值小于pivot的节点，中间
+    部分都是值等于pivot的节点，右部分都是值大于pivot的节点。
+    ---
+    思路：
+    将原链表中的所有节点依次分进三个链表，三个链表分别代表左部分、中间部分、
+    右部分。
+    """
+    s_head = s_last = e_head = e_last = b_head = b_last = None
+    while head:
+        next = head.next
+        head.next = None
+        if head.value < pivot:
+            if s_head is None:
+                s_head = head
+            else:
+                s_last.next = head
+            s_last = head
+        elif head.value == pivot:
+            if e_head is None:
+                e_head = head
+            else:
+                e_last.next = head
+            e_last = head
+        else:
+            if b_head is None:
+                b_head = head
+            else:
+                b_last.next = head
+            b_last = head
+        head = next
+
+    if s_last:
+        s_last.next = e_head
+        e_last = e_last if e_last else s_last
+
+    if e_last:
+        e_last.next = b_head
+    return s_head or e_head or b_head
+
+
+def add_lists(head1, head2):
+    stack1 = Stack()
+    stack2 = Stack()
+
+    while head1:
+        stack1.push(head1.value)
+        head1 = head1.next
+
+    while head2:
+        stack2.push(head2.value)
+        head2 = head2.next
+
+    ca = 0
+    head = None
+    while not (stack1.empty() and stack1.empty()):
+        s1 = 0 if stack1.empty() else stack1.pop()
+        s2 = 0 if stack2.empty() else stack2.pop()
+
+        n = s1 + s2 + ca
+        node = Node(n % 10)
+        node.next = head
+        head = node
+        ca = n // 10
+
+    if ca == 1:
+        node = Node(1)
+        node.next = head
+        head = node
     return head

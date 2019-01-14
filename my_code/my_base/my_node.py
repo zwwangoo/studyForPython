@@ -5,6 +5,7 @@ class Node:
 
 
 def create_nodes(column):
+    column = list(column)[::-1]
     head = None
     for i in column:
         node = Node(i)
