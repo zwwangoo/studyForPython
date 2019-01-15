@@ -2,6 +2,7 @@ from ..my_base.my_node import create_nodes, read_nodes
 from ..codes.about_node import (
     remove_mid_node, remove_last_node, remove_by_ratio, reverse_node,
     reverse_part_node, is_palindroome_node, list_partition, add_lists,
+    relocate, merge_two_nodes,
 )
 
 
@@ -63,6 +64,14 @@ def test_is_palindroome_node():
     assert not is_palindroome_node(create_nodes([1, 2, 3, 3]))
 
 
+def test_merge_two_nodes():
+    head1 = create_nodes([0, 2, 3, 7])
+    head2 = create_nodes([1, 3, 5, 7, 9])
+    assert read_nodes(merge_two_nodes(head1, head2)) == [
+        0, 1, 2, 3, 3, 5, 7, 7, 9,
+    ]
+
+
 def test_list_partition():
     assert read_nodes(list_partition(create_nodes([9, 0, 4, 5, 1]), 3)) == [
         0, 1, 9, 4, 5,
@@ -83,3 +92,13 @@ def test_add_lists():
     ) == [
             9, 0, 0,
     ]
+
+
+def test_relocate():
+    head = create_nodes([1, 2])
+    relocate(head)
+    assert read_nodes(head) == [1, 2]
+
+    head = create_nodes([1, 2, 3, 4, 5])
+    relocate(head)
+    assert read_nodes(head) == [1, 3, 2, 4, 5]

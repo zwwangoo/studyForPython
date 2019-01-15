@@ -234,6 +234,10 @@ def is_palindroome_node(head):
     return res
 
 
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
 def merge_two_nodes(head1, head2):
     """
     2019-01-13
@@ -245,12 +249,12 @@ def merge_two_nodes(head1, head2):
     if not head1 or not head2:
         return head1 if head1 else head2
 
-    head = head1 if head1.value <= head2.value else head2
-    cur1 = head1 if head == head1 else head2
-    cur2 = head2 if head == head1 else head1
+    head = head1 if head1.value < head2.value else head2
+    cur1 = head1 if head1 == head else head2
+    cur2 = head2 if head1 == head else head1
     pre = None
     while cur1 and cur2:
-        if cur1.value < cur2.value:
+        if cur1.value <= cur2.value:
             pre = cur1
             cur1 = cur1.next
         else:
@@ -261,6 +265,10 @@ def merge_two_nodes(head1, head2):
             cur2 = next
     pre.next = cur1 if cur1 else cur2
     return head
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
 
 
 def list_partition(head, pivot):
@@ -309,7 +317,18 @@ def list_partition(head, pivot):
     return s_head or e_head or b_head
 
 
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
 def add_lists(head1, head2):
+    """
+    2019-01-14
+    两个单链表生成相加链表
+    ---
+    假设链表中每一个节点的值都在0-9之间，那么链表整体就可以代表一个整数。
+    给定两个这种链表的头结点head1和head2，生成两个整数相加值的结果链表。
+    """
     stack1 = Stack()
     stack2 = Stack()
 
@@ -321,7 +340,7 @@ def add_lists(head1, head2):
         stack2.push(head2.value)
         head2 = head2.next
 
-    ca = 0
+    ca = 0  # 表示是否进位
     head = None
     while not (stack1.empty() and stack1.empty()):
         s1 = 0 if stack1.empty() else stack1.pop()
@@ -333,8 +352,43 @@ def add_lists(head1, head2):
         head = node
         ca = n // 10
 
-    if ca == 1:
+    if ca == 1:  # 最高位进位处理
         node = Node(1)
         node.next = head
         head = node
+
     return head
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def relocate(head):
+    """
+    2019-01-15
+    按照左右半区的方式重新组合单链表
+    ---
+    给定一个单链表的头结点head，链表长度为N，如果N为偶数，那么前N/2个节
+    点算左半区，后N/2算右半区，如果N为奇数，那么前N/2各节点算左半区，后
+    N/2+1个节点算右半区。左半区到右半区依次记为L1->L2->...，右半区记为
+    R1->R2->...，请将单链表调整成L1->R1->L2->R2->L3->...
+    """
+    if not head or not head.next:
+        return
+    left = head
+    mid = head
+    right = head.next
+    while right.next and right.next.next:
+        mid = mid.next
+        right = right.next.next
+    right = mid.next
+    mid.next = None
+
+    while left.next:
+        next = right.next
+        right.next = left.next
+        left.next = right
+        left = right.next
+        right = next
+    left.next = right
