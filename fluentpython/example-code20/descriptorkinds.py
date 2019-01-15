@@ -5,37 +5,37 @@
 是类属性，但是实现__set__方法的haunted，会覆盖对实例属性的赋值操作::
     >>> obj = Managed()
     >>> obj.over
-    -> Overriding.__get__(<Overriding object>, <Managed object>,
-        <class Managed>)
+    -> Overriding.__get__(<Overriding object>, <Managed object>, \
+<class Managed>)
     >>> Managed.over
     -> Overriding.__get__(<Overriding object>, None, <class Managed>)
     >>> obj.over = 7
     -> Overriding.__set__(<Overriding object>, <Managed object>, 7)
     >>> obj.over
-    -> Overriding.__get__(<Overriding object>, <Managed object>,
-        <class Managed>)
+    -> Overriding.__get__(<Overriding object>, <Managed object>, \
+<class Managed>)
     >>> obj.__dict__['over'] = 8
     >>> obj.over
-    -> Overriding.__get__(<Overriding object>, <Managed object>,
-        <class Managed>)
+    -> Overriding.__get__(<Overriding object>, <Managed object>, \
+<class Managed>)
     >>> vars(obj)
     {'over': 8}
 
 没有__get__方法的覆盖型描述符, 实例属性会遮盖描述符，不过只有读操作如此::
-    >>> obj.over_no_get
-    <__console__.OverridingNoGet object at 0x7fa9798c8f98>
-    >>> Managed.over_no_get
-    <__console__.OverridingNoGet object at 0x7fa9798c8f98>
+    >>> obj.over_no_get  #doctest: +ELLIPSIS
+    <descriptorkinds.OverridingNoGet object at 0x...>
+    >>> Managed.over_no_get  #doctest: +ELLIPSIS
+    <descriptorkinds.OverridingNoGet object at 0x...>
     >>> obj.over_no_get = 7
     -> OverridingNoGet.__set__(<OverridingNoGet object>, <Managed object>, 7)
-    >>> obj.over_no_get
-    <__console__.OverridingNoGet object at 0x7fa9798c8f98>
+    >>> obj.over_no_get  #doctest: +ELLIPSIS
+    <descriptorkinds.OverridingNoGet object at 0x...>
     >>> obj.__dict__['over_no_get'] = 8
     >>> obj.over_no_get
     8
     >>> obj.over
-    -> Overriding.__get__(<Overriding object>, <Managed object>,
-        <class Managed>)
+    -> Overriding.__get__(<Overriding object>, <Managed object>, \
+<class Managed>)
     >>> obj.over_no_get = 9
     -> OverridingNoGet.__set__(<OverridingNoGet object>, <Managed object>, 9)
     >>> obj.over_no_get
@@ -45,8 +45,8 @@
 导致描述符无法处理那个实例的那个属性::
     >>> obj = Managed()
     >>> obj.non_over
-    -> NonOverriding.__get__(<NonOverriding object>, <Managed object>,
-        <class Managed>)
+    -> NonOverriding.__get__(<NonOverriding object>, <Managed object>, \
+<class Managed>)
     >>> obj.non_over = 7
     >>> obj.non_over
     7
@@ -54,8 +54,8 @@
     -> NonOverriding.__get__(<NonOverriding object>, None, <class Managed>)
     >>> del obj.non_over
     >>> obj.non_over
-    -> NonOverriding.__get__(<NonOverriding object>, <Managed object>,
-        <class Managed>)
+    -> NonOverriding.__get__(<NonOverriding object>, <Managed object>, \
+<class Managed>)
 
 通过类可以覆盖任何描述符, 不管描述符是不是覆盖型，为类属性赋值都能覆盖描述符::
     >>> obj = Managed()
