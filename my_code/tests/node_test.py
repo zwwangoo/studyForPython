@@ -2,7 +2,7 @@ from ..my_base.my_node import create_nodes, read_nodes
 from ..codes.about_node import (
     remove_mid_node, remove_last_node, remove_by_ratio, reverse_node,
     reverse_part_node, is_palindroome_node, list_partition, add_lists,
-    relocate, merge_two_nodes,
+    relocate, merge_two_nodes, remove_value, remove_rep1, remove_rep2,
 )
 
 
@@ -102,3 +102,26 @@ def test_relocate():
     head = create_nodes([1, 2, 3, 4, 5])
     relocate(head)
     assert read_nodes(head) == [1, 3, 2, 4, 5]
+
+
+def test_remove_value():
+
+    assert read_nodes(remove_value(create_nodes([2, 3, 3, 4, 5]), 3)) == [
+        2, 4, 5,
+    ]
+    assert read_nodes(remove_value(create_nodes([1, 1, 1, 1]), 1)) == []
+
+
+def test_remove_rep():
+    assert read_nodes(remove_rep1(create_nodes([2, 3, 3, 4, 5]))) == [
+        2, 3, 4, 5,
+    ]
+    assert read_nodes(remove_rep2(create_nodes([2, 3, 3, 4, 5]))) == [
+        2, 3, 4, 5,
+    ]
+    assert read_nodes(remove_rep1(create_nodes([2, 3, 3, 3, 3]))) == [
+        2, 3,
+    ]
+    assert read_nodes(remove_rep2(create_nodes([2, 3, 3]))) == [
+        2, 3,
+    ]

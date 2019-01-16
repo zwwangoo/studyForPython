@@ -111,7 +111,7 @@ def reverse_part_node(head, from1, to):
     2018-12-26
     翻转部分单向链表
     ---
-    给定一个单向链表的头结点head，以及两个整数from和to，
+    给定一个单向链表的头节点head，以及两个整数from和to，
     在单向链表上把第from个节点到第to个节点这一部分进行翻转。
 
     """
@@ -187,7 +187,7 @@ def is_palindroome_node(head):
     2018-12-28
     判断一个链表是否为回文
     ---
-    给定一个链表的头结点head，判断该链表是否为回文结构。
+    给定一个链表的头节点head，判断该链表是否为回文结构。
     如果链表长度为N，时间复杂度也达到O(N)，额外空间复杂度达到O(1)
     '''
     if not head or not head.next:
@@ -243,8 +243,8 @@ def merge_two_nodes(head1, head2):
     2019-01-13
     合并两个有序的单链表
     ---
-    给定两个有序单链表的头结点head1和head2，请合并两个有序连表，合并
-    后依然有序，并返回合并后链表的头结点。
+    给定两个有序单链表的头节点head1和head2，请合并两个有序连表，合并
+    后依然有序，并返回合并后链表的头节点。
     """
     if not head1 or not head2:
         return head1 if head1 else head2
@@ -276,7 +276,7 @@ def list_partition(head, pivot):
     2019-01-14
     将单链表按某值划分成左边小、中间相等、右边大的形式。
     ---
-    给定一个单向链表的头结点head，节点的值类型是整形，在给定一个整数pivot。
+    给定一个单向链表的头节点head，节点的值类型是整形，在给定一个整数pivot。
     实现一个调整链表的函数，将链表调整为左边部分都是值小于pivot的节点，中间
     部分都是值等于pivot的节点，右部分都是值大于pivot的节点。
     ---
@@ -327,7 +327,7 @@ def add_lists(head1, head2):
     两个单链表生成相加链表
     ---
     假设链表中每一个节点的值都在0-9之间，那么链表整体就可以代表一个整数。
-    给定两个这种链表的头结点head1和head2，生成两个整数相加值的结果链表。
+    给定两个这种链表的头节点head1和head2，生成两个整数相加值的结果链表。
     """
     stack1 = Stack()
     stack2 = Stack()
@@ -369,7 +369,7 @@ def relocate(head):
     2019-01-15
     按照左右半区的方式重新组合单链表
     ---
-    给定一个单链表的头结点head，链表长度为N，如果N为偶数，那么前N/2个节
+    给定一个单链表的头节点head，链表长度为N，如果N为偶数，那么前N/2个节
     点算左半区，后N/2算右半区，如果N为奇数，那么前N/2各节点算左半区，后
     N/2+1个节点算右半区。左半区到右半区依次记为L1->L2->...，右半区记为
     R1->R2->...，请将单链表调整成L1->R1->L2->R2->L3->...
@@ -392,3 +392,85 @@ def relocate(head):
         left = right.next
         right = next
     left.next = right
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def remove_value(head, num):
+    """
+    2019-01-16
+    在单链表中，删除指定值的节点
+    ---
+    给定一个链表的头节点head和一个整数num，实现函数将值为num的节点全部删除。
+    """
+
+    while head:
+        if head.value == num:
+            head = head.next
+        else:
+            break
+
+    pre = cur = head
+    while cur:
+        if cur.value == num:
+            pre.next = cur.next
+        else:
+            pre = cur
+        cur = cur.next
+    return head
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def remove_rep1(head):
+    """
+    2019-01-16
+    删除无序单链表中值重复出现的节点
+    ---
+    给定一个无序单链表的头节点head，删除其中值重复出现的节点。
+    要求：如果链表长度为N，时间复杂度达到O(N)
+    """
+    if not head:
+        return None
+    pre = head
+    cur = head.next
+    d = {head.value: 1}
+    while cur:
+        if d.get(cur.value):
+            pre.next = cur.next
+        else:
+            d.update({cur.value: 1})
+            pre = cur
+        cur = cur.next
+    return head
+
+
+def remove_rep2(head):
+    """
+    2019-01-16
+    删除无序单链表中值重复出现的节点
+    ---
+    给定一个无序单链表的头节点head，删除其中值重复出现的节点。
+    要求：额外空间复杂度为O(1)
+    """
+    if not head:
+        return None
+
+    pre = None
+    next = None
+    cur = head
+    while cur:
+        pre = cur
+        next = cur.next
+        while next:
+            if next.value == cur.value:
+                pre.next = next.next
+            else:
+                pre = next
+            next = next.next
+        cur = cur.next
+    return head
