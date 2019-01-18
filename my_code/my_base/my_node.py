@@ -4,6 +4,14 @@ class Node:
         self.next = None
 
 
+class NodeRand:
+
+    def __init__(self, value):
+        self.value = value
+        self.rand = None
+        self.next = None
+
+
 def create_nodes(column):
     column = list(column)[::-1]
     head = None

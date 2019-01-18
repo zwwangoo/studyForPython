@@ -1,6 +1,6 @@
 # coding: utf-8
 from ..my_base.my_stack import Stack
-from ..my_base.my_node import Node
+from ..my_base.my_node import Node, NodeRand
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 
@@ -474,3 +474,75 @@ def remove_rep2(head):
             next = next.next
         cur = cur.next
     return head
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def copy_list_with_rand1(head):
+    """
+    2019-01-18
+    复制含有随机指针节点的链表
+    ---
+    给定一个由Node节点类型组成的无环单链表的头结点head，实现一个函
+    数完成这个链表中所有结构的复制，并返回新的链表的头节点。
+    """
+    if not head:
+        return None
+    node_dict = {}
+    cur = head
+    while cur:
+        node_dict.update({cur: NodeRand(cur.value)})
+        cur = cur.next
+
+    cur = head
+    while cur:
+        node_dict.get(cur).next = node_dict.get(cur.next)
+        node_dict.get(cur).rand = node_dict.get(cur.rand)
+        cur = cur.next
+    return node_dict.get(head)
+
+
+def copy_list_with_rand2(head):
+    """
+    2019-01-18
+    复制含有随机指针节点的链表
+    ---
+    给定一个由Node节点类型组成的无环单链表的头结点head，实现一个函
+    数完成这个链表中所有结构的复制，并返回新的链表的头节点。
+    ---
+    要求：
+    不使用额外的数据结构，只用有限的几个变量，且在时间复杂度为O(N)内
+    完成。
+    ---
+    思路：
+    首先从左到右遍历链表，在每个节点cur都复制生成相应的副本节点copy，
+    然后把copy放在cur和下一个要遍历节点的中间
+    """
+
+    if not head:
+        return None
+
+    cur = head
+    while cur:  # 复制节点
+        next = cur.next
+        cur.next = NodeRand(cur.value)
+        cur.next.next = next
+        cur = next
+
+    cur = head
+    while cur:  # 复制rand节点
+        next = cur.next.next
+        cur.next.rand = cur.rand.next if cur.rand else None
+        cur = next
+
+    res = head.next  # 新链表的头
+    cur = head
+    while cur:  # 拆分
+        next = cur.next.next
+        copy_node = cur.next
+        cur.next = next
+        copy_node.next = next.next if next else None
+        cur = next
+    return res
