@@ -546,3 +546,76 @@ def copy_list_with_rand2(head):
         copy_node.next = next.next if next else None
         cur = next
     return res
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def get_loop_node(head):
+    """
+    2019-01-18
+    判断一个链表是否有环，有则返回第一个进入环的节点。
+    ---
+    思路：
+    设置两个指针slow和fast，开始时都指向头节点head，然后slol每次移动
+    一步，fast每次移动两步，在链表中遍历。如果fast先遇到终点，则无环。
+    否则fast和slow一定会在环中相遇。当相遇时，fast重回到head位置，然后
+    移动两步该成一步，slow依然每次移动一步。那么fast和slow一定会再次
+    相遇，并且在第一个如环节点处相遇。
+    """
+    if not head or not head.next or not head.next.next:
+        return None
+
+    n1 = head.next
+    n2 = head.next.next
+
+    while n1 != n2:
+        if not n2.next or not n2.next.next:
+            return None
+        n2 = n2.next.next
+        n1 = n1.next
+
+    n2 = head
+    while n1 != n2:
+        n2 = n2.next
+        n1 = n1.next
+    return n1
+
+
+def no_loop(head1, head2):
+    """
+    2019-01-18
+    如果两个无环链表相交，那么从相交的节点开始，到两个链表终止的这一
+    段是两个链表共享的。
+    """
+    if not head1 or not head2:
+        return None
+
+    cur1 = head1
+    cur2 = head2
+    n = 0
+    while cur1.next:
+        n += 1
+        cur1 = cur1.next
+
+    while cur2.next:
+        n -= 1
+        cur2 = cur2.next
+
+    if cur1 != cur2:  # 尾节点不相等
+        return None
+
+    cur1 = head1 if n >= 0 else head2
+    cur2 = head2 if cur1 == head1 else head1
+
+    n = abs(n)
+    while n != 0:
+        n -= 1
+        cur1 = cur1.next
+
+    while cur1 != cur2:
+        cur1 = cur1.next
+        cur2 = cur2.next
+
+    return cur1
