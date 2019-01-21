@@ -15,7 +15,10 @@
 
 # 23种设计模式(按照阅读学习顺序)
 
-- 简单工厂模式(factory.py)
-- 策略模式(strategy.py)
-- 装饰模式(decorator.py)
-- 代理模式(proxy.py)
+- 简单工厂模式(`simple_factory.py`)
+- 策略模式(`strategy.py`)
+- 装饰模式(`decorator.py`)
+- 代理模式(`proxy.py`)
+- 工厂方法模式(`factory_method.py`)
+- 原型模式(`prototype.py`)
+- 模板方法模式(`template_method.py`)
