@@ -619,3 +619,70 @@ def no_loop(head1, head2):
         cur2 = cur2.next
 
     return cur1
+
+
+def both_loop(head1, loop1, head2, loop2):
+    """
+    2019-01-21
+    两个有环链表相交。
+    ---
+    思路：
+    假设链表1的第一个入环节点记为loop1，链表2的第一个入环节点记为loop2。
+    """
+    if loop1 == loop2:
+        n = 0
+        cur1 = head1
+        cur2 = head2
+        while cur1 != loop1:
+            n += 1
+            cur1 = cur1.next
+        while cur2 != loop2:
+            n -= 1
+            cur2 = cur2.next
+
+        cur1 = head1 if n > 0 else head2
+        cur2 = head2 if cur1 == head1 else head1
+        n = abs(n)
+        while n != 0:
+            cur1 = cur1.next
+            cur2 = cur2.next
+        return cur1
+    else:
+        cur1 = loop1.next
+        while cur1 != loop1:
+            if cur1 == loop2:
+                return cur1
+            cur1 = cur1.next
+        return None
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def get_intersect_node(head1, head2):
+    """
+    两个单链表的相交问题。
+    ---
+    单链表可能有环也可能无环。给定两个单链表的头节点head1和head2，
+    这两个链表可能相交，也可能不相交。如果相交，请返回第一个节点。
+    ---
+    要求：
+    如果链表1的长度为N，链表2的长度为M，时间复杂度请达到O(N+M)，额
+    外空间复杂度请达到O(1)
+    ---
+    思路：
+    该问题可以拆分为是三个子问题。
+    1、如何判断一个链表有环，如果有，则返回第一个相交节点。
+    2、如何判断两个无环链表是否相交，相交则返回第一个相交节点。
+    3、如何判断两个有环链表相交，相交则返回第一个相交节点。
+    """
+    if not head1 or not head2:
+        return None
+    loop1 = get_loop_node(head1)
+    loop2 = get_loop_node(head2)
+    if not loop1 and not loop2:
+        return no_loop(head1, head2)
+    if loop1 and loop1:
+        return both_loop(head1, loop1, head2, loop2)
+    return None
