@@ -22,3 +22,5 @@
 - 工厂方法模式(`factory_method.py`)
 - 原型模式(`prototype.py`)
 - 模板方法模式(`template_method.py`)
+- 外观模式(`facade.py`)
+- 建造者模式(`builder.py`)
