@@ -24,3 +24,10 @@
 - 模板方法模式(`template_method.py`)
 - 外观模式(`facade.py`)
 - 建造者模式(`builder.py`)
+
+- 观察者模式(`observer.py`)
+- 抽象工厂方法(`abstract_factory.py`)
+- 状态模式(`state.py`)
+
+- 适配器模式(`adapter.py`)
+- 备忘录模式(`memento.py`)
