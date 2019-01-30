@@ -31,3 +31,8 @@
 
 - 适配器模式(`adapter.py`)
 - 备忘录模式(`memento.py`)
+
+- 组合模式(`composite.py`)
+- 迭代器模式(`iterator.py`)
+- 单例模式(`singleton.py`)
+- 桥接模式(`bridge.py`)
