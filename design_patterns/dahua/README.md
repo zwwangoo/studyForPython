@@ -36,3 +36,6 @@
 - 迭代器模式(`iterator.py`)
 - 单例模式(`singleton.py`)
 - 桥接模式(`bridge.py`)
+- 命令模式(`command.py`)
+- 责任链模式(`chain_of_responsibility.py`)
+- 中介者模式(`mediator.py`)
