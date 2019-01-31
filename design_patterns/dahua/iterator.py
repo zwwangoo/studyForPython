@@ -71,7 +71,6 @@ class ConcreteAggregate(Aggregate):
     def __init__(self):
         self.items = {}
 
-
     def create_iterator(self):
         return ConcreteIterator(self)
 

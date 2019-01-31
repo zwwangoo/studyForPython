@@ -16,6 +16,7 @@
 # 23种设计模式(按照阅读学习顺序)
 
 - 简单工厂模式(`simple_factory.py`)
+
 - 策略模式(`strategy.py`)
 - 装饰模式(`decorator.py`)
 - 代理模式(`proxy.py`)
@@ -36,6 +37,11 @@
 - 迭代器模式(`iterator.py`)
 - 单例模式(`singleton.py`)
 - 桥接模式(`bridge.py`)
+
 - 命令模式(`command.py`)
 - 责任链模式(`chain_of_responsibility.py`)
 - 中介者模式(`mediator.py`)
+
+- 享元模式(`flyweight.py`)
+- 解释器模式(`interpreter.py`)
+- 访问者模式(`visitor.py`)

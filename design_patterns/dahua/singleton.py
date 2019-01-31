@@ -15,7 +15,6 @@
 """
 
 
-
 class Singleton:
     _instance = None
 
@@ -27,6 +26,7 @@ class Singleton:
     def __init__(self, name):
         print('单例：', id(self))
         self.name = name
+
 
 if __name__ == '__main__':
     singleton1 = Singleton('wen')
