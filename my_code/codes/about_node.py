@@ -22,7 +22,7 @@ def remove_last_node(head, k):
         return head.next
     if k < 0:
         tag_head = head
-        while k != -1:
+        while k < -1:
             k += 1
             tag_head = tag_head.next
         tag_head.next = tag_head.next.next
