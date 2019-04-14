@@ -136,7 +136,6 @@ def print_level(matrix, tr, tc, dr, dc, end_c, from_up, result):
             tc -= 1
     else:
         while dr != tr - 1 and dc <= end_c:
-            print(tr, tc, dr, dc)
             result.append(matrix[dr][dc])
             dr -= 1
             dc += 1
