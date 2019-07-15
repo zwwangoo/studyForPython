@@ -247,11 +247,10 @@ def merge_two_nodes(head1, head2):
     后依然有序，并返回合并后链表的头节点。
     """
     if not head1 or not head2:
-        return head1 if head1 else head2
-
+        return head1 or head2
     head = head1 if head1.value < head2.value else head2
-    cur1 = head1 if head1 == head else head2
-    cur2 = head2 if head1 == head else head1
+    cur1 = head1 if head == head1 else head2
+    cur2 = head2 if head == head1 else head1
     pre = None
     while cur1 and cur2:
         if cur1.value <= cur2.value:
@@ -259,11 +258,11 @@ def merge_two_nodes(head1, head2):
             cur1 = cur1.next
         else:
             next = cur2.next
-            pre.next = cur2
             cur2.next = cur1
+            pre.next = cur2
             pre = cur2
             cur2 = next
-    pre.next = cur1 if cur1 else cur2
+    pre.next = cur1 or cur2
     return head
 
 
@@ -566,20 +565,17 @@ def get_loop_node(head):
     """
     if not head or not head.next or not head.next.next:
         return None
-
     n1 = head.next
     n2 = head.next.next
-
     while n1 != n2:
         if not n2.next or not n2.next.next:
             return None
-        n2 = n2.next.next
         n1 = n1.next
-
+        n2 = n2.next.next
     n2 = head
     while n1 != n2:
-        n2 = n2.next
         n1 = n1.next
+        n2 = n2.next
     return n1
 
 
@@ -591,33 +587,26 @@ def no_loop(head1, head2):
     """
     if not head1 or not head2:
         return None
-
     cur1 = head1
     cur2 = head2
     n = 0
     while cur1.next:
         n += 1
         cur1 = cur1.next
-
     while cur2.next:
         n -= 1
         cur2 = cur2.next
-
-    if cur1 != cur2:  # 尾节点不相等
+    if cur1 != cur2:
         return None
-
-    cur1 = head1 if n >= 0 else head2
-    cur2 = head2 if cur1 == head1 else head1
-
+    cur1 = head1 if n > 0 else head2
+    cur2 = head2 if cur1 == head1 else head2
     n = abs(n)
     while n != 0:
         n -= 1
         cur1 = cur1.next
-
     while cur1 != cur2:
         cur1 = cur1.next
         cur2 = cur2.next
-
     return cur1
 
 

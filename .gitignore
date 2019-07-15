@@ -3,3 +3,4 @@
 beat.*
 .pytest_cache/
 .python_version
+/my_code/.python-version
