@@ -92,14 +92,10 @@ def reverse_node(head):
     2018-12-25
     翻转链表
     """
-    pre = None
-    next = None
-    while head:
-        next = head.next
-        head.next = pre
-        pre = head
-        head = next
-    return pre
+    cur, prev = head, None
+    while cur:
+        cur.next, prev, cur = prev, cur, cur.next
+    return prev
 
 
 # ----------------------------------------------------------------
@@ -550,6 +546,18 @@ def copy_list_with_rand2(head):
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 
+def has_cycle(head):
+    """
+    判断链表是否有环
+    """
+    show = fast = head
+    while show and fast and fast.next:
+        show = show.next
+        fast = fast.next.next
+        if show is fast:
+            return True
+    return False
+
 
 def get_loop_node(head):
     """
@@ -675,3 +683,16 @@ def get_intersect_node(head1, head2):
     if loop1 and loop1:
         return both_loop(head1, loop1, head2, loop2)
     return None
+
+
+def swap_pairs(head):
+    pre = Node(None)
+    pre.next = head
+    cur = pre
+    while pre.next and pre.next.next:
+        print(pre.value)
+        a = pre.next
+        b = a.next
+        pre.next, b.next, a.next = b, a, b.next
+        pre = a
+    return cur.next

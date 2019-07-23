@@ -139,3 +139,26 @@ def print_level(matrix, tr, tc, dr, dc, end_c, from_up, result):
             result.append(matrix[dr][dc])
             dr -= 1
             dc += 1
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+
+
+def two_sum(nums, target):
+    """
+    给定一个整数数组 nums 和一个目标值 target，
+    请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+    ---
+    例如：
+    nums = [2, 7, 11, 15], target = 9
+    返回：
+    [0, 1]
+    """
+    hash_map = dict()
+    for index, value in enumerate(nums):
+        if value in hash_map:
+            return [hash_map[value], index]
+        else:
+            hash_map[target - value] = index
+    return None

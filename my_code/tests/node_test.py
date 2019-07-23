@@ -3,6 +3,7 @@ from ..codes.about_node import (
     remove_mid_node, remove_last_node, remove_by_ratio, reverse_node,
     reverse_part_node, is_palindroome_node, list_partition, add_lists,
     relocate, merge_two_nodes, remove_value, remove_rep1, remove_rep2,
+    swap_pairs,
 )
 
 
@@ -85,12 +86,12 @@ def test_add_lists():
     assert read_nodes(
         add_lists(create_nodes([9, 3, 7]), create_nodes([6, 3])),
     ) == [
-            1, 0, 0, 0,
+        1, 0, 0, 0,
     ]
     assert read_nodes(
         add_lists(create_nodes([8, 3, 7]), create_nodes([6, 3])),
     ) == [
-            9, 0, 0,
+        9, 0, 0,
     ]
 
 
@@ -124,4 +125,10 @@ def test_remove_rep():
     ]
     assert read_nodes(remove_rep2(create_nodes([2, 3, 3]))) == [
         2, 3,
+    ]
+
+
+def test_swap_pairs():
+    assert read_nodes(swap_pairs(create_nodes([1, 2, 3, 4]))) == [
+        2, 1, 4, 3,
     ]

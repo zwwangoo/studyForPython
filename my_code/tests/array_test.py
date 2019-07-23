@@ -1,5 +1,5 @@
 from ..codes.about_array import (
-    spiral_order_print, rotate, print_matrix_zig_zag,
+    spiral_order_print, rotate, print_matrix_zig_zag, two_sum,
 )
 
 
@@ -51,3 +51,8 @@ def test_matrix_zig_zag():
     assert print_matrix_zig_zag(data) == [
         1, 2, 5, 9, 6, 3, 4, 7, 10, 11, 8, 12,
     ]
+
+
+def test_two_sum():
+    nums = [2, 7, 11, 15]
+    assert two_sum(nums, 9) == [0, 1]
