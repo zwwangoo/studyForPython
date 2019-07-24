@@ -1,20 +1,11 @@
-import requests
 from lxml import etree
-
-url = 'https://www.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;g=ENSG00000166845;r=18:54358585-54382032;t=ENST00000300091'  # noqa
+from params import TranscriptRequests
+from pages import get_response
 
 
 def get_page(url):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; '
-        'en-us) AppleWebKit/534.50 (KHTML, like Gecko) '
-        'Version/5.1 Safari/534.50',
-
-    }
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return response.text
-    return None
+    transcript_requests = TranscriptRequests(url=url)
+    return get_response(transcript_requests)
 
 
 def parse_page(text):
@@ -61,7 +52,3 @@ def parse_page(text):
         transcript['flags'] = [flag for flag in flags]
 
         yield transcript
-
-
-for transcript in parse_page(get_page(url)):
-    print(transcript)
