@@ -7,9 +7,6 @@ context = zmq.Context()
 receiver = context.socket(zmq.PULL)
 receiver.bind('tcp://*:5558')
 
-
-s = receiver.recv()
-
 tstart = time.time()
 
 for task_nbr in range(100):

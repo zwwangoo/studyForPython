@@ -22,3 +22,6 @@ for update_nbr in range(5):
 
 print('Average temperature for zipcode "%s" was %dF' %
       (zip_filter, total_temp/(update_nbr + 1)))
+
+socket.close()
+context.term()

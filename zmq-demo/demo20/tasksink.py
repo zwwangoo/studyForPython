@@ -10,7 +10,7 @@ receiver.bind('tcp://*:5558')
 controller = context.socket(zmq.PUB)
 controller.bind('tcp://*:5559')
 
-string = receiver.recv()
+# string = receiver.recv()
 tstart = time.time()
 
 for task_nbr in range(100):

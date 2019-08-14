@@ -1,3 +1,6 @@
+'''
+worker收到自杀信号后便会中止
+'''
 import time
 import sys
 import zmq
@@ -33,8 +36,11 @@ while True:
         sys.stdout.write('.')
         sys.stdout.flush()
 
+    # 自杀信号
     if socks.get(controller) == zmq.POLLIN:
-        break
+        msg = controller.recv()
+        if msg == b'KILL':
+            break
 
 receiver.close()
 sender.close()

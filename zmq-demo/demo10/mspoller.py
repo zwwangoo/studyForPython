@@ -18,9 +18,9 @@ while True:
         socks = dict(poller.poll())
     except KeyboardInterrupt:
         break
-    if receiver in socks:
+    if socks.get(receiver) == zmq.POLLIN:
         message = receiver.recv()
         print(message, 'receiver')
-    if subscriber in socks:
+    if socks.get(subscriber) == zmq.POLLIN:
         message = subscriber.recv()
         print(message, 'subscriber')
