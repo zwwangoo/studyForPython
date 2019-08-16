@@ -13,7 +13,7 @@ socket.bind("tcp://*:5555")
 
 while True:
     # 等待客户端请求
-    message = socket.revc()
+    message = socket.recv()
     print("Received request: %s" % message)
 
     # 做些处理
