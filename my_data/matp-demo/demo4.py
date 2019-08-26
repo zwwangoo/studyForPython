@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
 
 labels = np.array([u"推进", "KDA", u"生存", u"团战", u"发育", u"输出"])
 stats = [83, 61, 95, 67, 76, 88]
