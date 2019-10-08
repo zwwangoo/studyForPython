@@ -7,16 +7,21 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("square", type=int,
-                    help="display the square of a given number")
+parser.add_argument(
+    "square", type=int,
+    help="display the square of a given number",
+)
 # 指定默认值
 parser.add_argument('-f', '--file', default='./input.csv', help='input file')
 # 不需要带参数的短命令  action='store_true'
 parser.add_argument(
-    '-m', '--merge', help='merge all csv file.', action='store_true')
+    '-m', '--merge', help='merge all csv file.', action='store_true',
+)
 # 限定参数选定范围
-parser.add_argument('-v', '--verbosity', type=int,
-                    help='increase output verbosity', choices=[1, 2, 3])
+parser.add_argument(
+    '-v', '--verbosity', type=int,
+    help='increase output verbosity', choices=[1, 2, 3],
+)
 # parser.add_argument('cmd', help='cmd select from "start", "stop"')
 
 # 或

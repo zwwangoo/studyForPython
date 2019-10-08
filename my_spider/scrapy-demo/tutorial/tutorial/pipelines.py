@@ -32,7 +32,8 @@ class MongoPipline(object):
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.setting.get('MONGO_URI'),
-            mongo_db=crawler.setting.get('MONGO_DB'))
+            mongo_db=crawler.setting.get('MONGO_DB'),
+        )
 
     def open_spider(self, spider):
         self.client = pymongo.MongoClient(self.mongo_uri)

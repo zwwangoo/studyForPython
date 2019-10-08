@@ -25,15 +25,19 @@ class PoolEmptyError(Exception):
 
 class RedisClient(object):
 
-    def __init__(self,
-                 host=REDIS_HOST,
-                 port=REDIS_PORT,
-                 password=REDIS_PASSWORD):
+    def __init__(
+        self,
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        password=REDIS_PASSWORD,
+    ):
         """
         """
 
-        self.db = redis.StrictRedis(host=host, port=port, password=password,
-                                    decode_responses=True)
+        self.db = redis.StrictRedis(
+            host=host, port=port, password=password,
+            decode_responses=True,
+        )
 
     def add(self, proxy, score=INITIAL_SCORE):
         if not re.match(r'\d+\.\d+\.\d+\.\d+\:\d+', proxy):
