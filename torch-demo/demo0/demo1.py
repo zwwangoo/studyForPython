@@ -1,3 +1,4 @@
+import os
 import torch as t
 from torch import optim
 from torch import nn
@@ -15,22 +16,37 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        # 全连接层， y = Wx + b
-        self.fc1 = nn.Linear(16*5*5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
+        self.features = nn.Sequential(
+            # 卷积层 '3'表示输入图片为单通道, '6'表示输出通道数，'5'表示卷积核为5*5
+            nn.Conv2d(3, 6, 5),
+            # 激活
+            nn.ReLU(),
+
+            nn.MaxPool2d(2, 2),
+            nn.Conv2d(6, 16, 5),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2)
+        )
+
+        self.classifier = nn.Sequential(
+            # 全连接层
+            nn.Linear(16 * 5 * 5, 120),
+
+            nn.ReLU(),
+            nn.Linear(120, 84),
+            nn.ReLU(),
+            nn.Linear(84, 10)
+        )
 
     def forward(self, x):
-        x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
-        x = F.max_pool2d(F.relu(self.conv2(x)), 2)
-
-        x = x.view(x.size()[0], -1)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
+        # 卷积 -> 激活 -> 池化
+        x = self.features(x)
+        x = x.view(-1, 16 * 5 * 5)
+        x = self.classifier(x)
         return x
+
+    def save(self, model_path):
+        t.save(self.state_dict(), model_path)
 
 
 # 定义对数据的预处理
@@ -80,35 +96,40 @@ trainset, trainloader, testset, testloader, classes = data()
 # 定义损失函数和优化器
 net = Net()
 criterion = nn.CrossEntropyLoss()  # 交叉熵损失函数
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-dataiter = iter(trainloader)
+optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)  # 使用随机梯度下降法优化
+
+old_lr = dataiter = iter(trainloader)
 images, lables = dataiter.next()
 print(' '.join('%ls' % classes[lables[j]] for j in range(4)))
 show(tv.utils.make_grid((images + 1) / 2)).resize((400, 100))
 
-# 训练
-t.set_num_threads(8)
-for epoch in range(2):
-    running_loss = 0.0
-    for i, data in enumerate(trainloader, 0):
-        inputs, lables = data  # 输入数据
+if os.path.exists('model.pth'):
+    # 加载已有模型
+    net.load_state_dict(t.load('model.pth'))
+else:
+    # 重新训练
+    t.set_num_threads(8)
+    for epoch in range(4):
+        running_loss = 0.0
+        for i, data in enumerate(trainloader, 0):
+            inputs, lables = data  # 输入数据
 
-        optimizer.zero_grad()  # 梯度清零
+            optimizer.zero_grad()  # 梯度清零
 
-        # forward + backward
-        outputs = net(inputs)
-        loss = criterion(outputs, lables)
-        loss.backward()
+            # forward + backward
+            outputs = net(inputs)
+            loss = criterion(outputs, lables)
+            loss.backward()
 
-        optimizer.step()  # 更新参数
+            optimizer.step()  # 更新参数
 
-        running_loss += loss.item()
-        if i % 2000 == 1999:
-            print('[%d, %5d] loss: %.3f'
-                  % (epoch + 1, i + 1, running_loss / 2000))
-            running_loss = 0.0
-print('Finished Training.')
+            running_loss += loss.item()
+            if i % 2000 == 1999:
+                print('[%d, %5d] loss: %.3f'
+                      % (epoch + 1, i + 1, running_loss / 2000))
+                running_loss = 0.0
+    print('Finished Training.')
 
 # 测试
 dataiter = iter(testloader)
@@ -123,6 +144,7 @@ _, predicted = t.max(outputs.data, 1)
 
 print('预测结果: ', ' '.join('%5s'
                          % classes[predicted[j]] for j in range(4)))
+
 correct = 0  # 预测正确的图片数
 total = 0  # 总共的图片数
 
@@ -136,4 +158,6 @@ with t.no_grad():
         total += labels.size(0)
         correct += (predicted == labels).sum()
 
+# 保存模型
+net.save('model.pth')
 print('10000张测试集中的准确率为: %d %%' % (100 * correct / total))
