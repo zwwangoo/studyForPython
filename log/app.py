@@ -1,5 +1,6 @@
 import os
 import logging
+import requests
 import time
 from flask import Flask, request, jsonify
 from multiprocessing import Process
@@ -14,10 +15,12 @@ log = logging.getLogger()
 
 
 def run_proc(name):
-    while True:
-        time.sleep(10)
-        log.info(time.time())
-        log.info('Run child process %s (%s)...' % (name, os.getpid()))
+    res = requests.get('https://www.baidu.com')
+    log.info(res.text)
+    time.sleep(10)
+    log.info(time.time())
+
+    log.info('Run child process %s (%s)...' % (name, os.getpid()))
 
 
 @app.route('/merck/remote/api/vidio/area', methods=['POST'])
