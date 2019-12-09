@@ -23,7 +23,7 @@ def run_proc(name):
     log.info('Run child process %s (%s)...' % (name, os.getpid()))
 
 
-@app.route('/merck/remote/api/vidio/area', methods=['POST'])
+@app.route('/', methods=['GET'])
 def index():
     data = request.get_json()
     if not data:

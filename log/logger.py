@@ -6,7 +6,8 @@ import re
 import socket
 import sys
 import time
-from logging.handlers import TimedRotatingFileHandler
+
+from timerotaingfilehandler import MultiProcessSafeHandler
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -95,12 +96,12 @@ def log_init(name, debug=False, log_path=None):
         agent_logger.setLevel(logging.INFO)
 
     log_file = (log_path if log_path else here) + "/info.log"
-    file_log_handler = TimedRotatingFileHandler(log_file, when="midnight")
+    file_log_handler = MultiProcessSafeHandler(log_file, when="midnight")
     file_log_handler.setFormatter(rfc5424_formatter)
     agent_logger.addHandler(file_log_handler)
 
     log_file = (log_path if log_path else here) + "/error.log"
-    file_log_handler_err = TimedRotatingFileHandler(log_file, when="midnight")
+    file_log_handler_err = MultiProcessSafeHandler(log_file, when="midnight")
     file_log_handler_err.setFormatter(rfc5424_formatter)
     file_log_handler_err.setLevel(logging.ERROR)
 
