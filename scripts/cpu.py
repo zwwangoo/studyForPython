@@ -41,9 +41,13 @@ if __name__ == '__main__':
             cmd = top_.format(proc['pid']) + '|' + gawk_
             s = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
             for line in s.stdout.decode().split('\n'):
-                line = line.replace('\x1b(B\x1b[m', '').split(' ')
+
+                line = line.replace('\x1b(B\x1b[m', '') \
+                    .replace('\x1b[m\x0f', '') \
+                    .split(' ')
+
                 top = [column for column in line if column.strip()]
                 if len(top) > 10:
-                    print('\t'.join([top[0], top[8], top[9], proc['cpu']]))
+                    print('\t'.join([top[0], top[8], top[9], proc['cpu'], proc['command']]))
         print()
         time.sleep(1)
